@@ -4,9 +4,12 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
+    <string name="add_item">Add Item</string>
+    <string name="back">Back</string>
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="looks_like_your_fridge_is_empty_at_the_moment">Looks like your fridge is empty at the moment!</string>
+    <string name="find_food">Find Food</string>
+    <string name="search">Search</string>
 </resources>
