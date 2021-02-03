@@ -10,7 +10,7 @@ public class FoodItem {
     private String location; //TODO: turn location into enum with "Fridge", "Pantry", "Freezer"
     private Date purchaseDate; //date of purchase
 
-    private FoodItem(String name, int productId, int quantity, Date purchaseDate) {
+    public FoodItem(String name, int productId, int quantity, Date purchaseDate) {
         if (name != null && productId > 0 && quantity > 0) {
             this.name = name;
             this.productId = productId;
