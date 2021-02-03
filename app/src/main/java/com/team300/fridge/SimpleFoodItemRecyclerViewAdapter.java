@@ -1,10 +1,15 @@
 package com.team300.fridge;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.List;
@@ -93,9 +98,36 @@ public class SimpleFoodItemRecyclerViewAdapter
             @Override
             public void onClick(View v) {
                 //An example on click for the food items
-                Snackbar.make(v, "Clicked on " + holder.mFoodItem.getName(), Snackbar.LENGTH_LONG)
+                Snackbar.make(v, holder.mFoodItem.getName() + " selected", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
+                //get view context
+                Context context = v.getContext();
+                //create popup with delete options
+                PopupMenu popup = new PopupMenu(context, v);
+                MenuInflater inflater = popup.getMenuInflater();
+                inflater.inflate(R.menu.delete_menu, popup.getMenu());
+                popup.show();
+                //handle which option the user selects
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener(){
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item){
+                        switch(item.getItemId()){
+                            case R.id.delete:
+                                //indicate app will delete one
+                                Snackbar.make(v, "Delete one " + holder.mFoodItem.getName() + " selected", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                delete(holder.getAdapterPosition(), v);
+                                return true;
+                            case R.id.delete_all:
+                                Snackbar.make(v, "Delete all " + holder.mFoodItem.getName() + " selected", Snackbar.LENGTH_LONG)
+                                        .setAction("Action", null).show();
+                                deleteAll(holder.getAdapterPosition(), v);
+                                return true;
+                            default:
+                                return false;
+                        }
+                    }
+                });
                 // code from another app, shows how to move to another activity with the on click
 //                Context context = v.getContext();
 //                //create our new intent with the new screen (activity)
@@ -113,6 +145,36 @@ public class SimpleFoodItemRecyclerViewAdapter
 
             }
         });
+    }
+        //delete 1 from the quantity from the clicked on item
+    public void delete(int position, View v){
+        FoodItem food = mFoodItems.get(position);
+        int oldQuantity = food.getQuantity();
+        int newQuantity = oldQuantity;
+        if(oldQuantity > 0) {
+            newQuantity = oldQuantity - 1;
+        }
+        //if newQuantity is zero, remove item from list
+        if(newQuantity <= 0){
+            mFoodItems.remove(food);
+        } else {
+            food.setQuantity(newQuantity);
+            //replace item with updated item
+            mFoodItems.set(position, food);
+        }
+        //test to make sure data updated
+        Snackbar.make(v, mFoodItems.get(position).getName() + " new quantity is: " + mFoodItems.get(position).getQuantity(), Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+        this.notifyItemChanged(position);
+    }
+
+    public void deleteAll(int position, View v){
+        FoodItem food = mFoodItems.get(position);
+        //for good measure
+        food.setQuantity(0);
+        //remove from list bc there are none in fridge
+        mFoodItems.remove(food);
+        this.notifyItemRemoved(position);
     }
 
     @Override
