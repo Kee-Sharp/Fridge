@@ -13,7 +13,7 @@ import java.util.List;
  * This inner class is our custom adapter.  It takes our basic model information and
  * converts it to the correct layout for this view.
  *
- * In this case, we are just mapping the toString of the Course object to a text field.
+ * In this case, we are just mapping the name and quantity of a FoodItem object to text fields.
  */
 public class SimpleFoodItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleFoodItemRecyclerViewAdapter.ViewHolder> {
@@ -57,12 +57,12 @@ public class SimpleFoodItemRecyclerViewAdapter
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            /*
+        /*
 
-              This sets up the view for each individual item in the recycler display
-              To edit the actual layout, we would look at: res/layout/text_row_item.xml
-              If you look at the example file, you will see it currently just 2 TextView elements
-             */
+          This sets up the view for each individual item in the recycler display
+          To edit the actual layout, we would look at: res/layout/text_row_item.xml
+          If you look at the example file, you will see it currently just 2 TextView elements
+         */
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.text_row_item, parent, false);
         return new ViewHolder(view);
@@ -72,17 +72,17 @@ public class SimpleFoodItemRecyclerViewAdapter
     public void onBindViewHolder(final ViewHolder holder, int position) {
 
         final Model model = Model.getInstance();
-            /*
-            This is where we have to bind each data element in the list (given by position parameter)
-            to an element in the view (which is one of our two TextView widgets
-             */
+        /*
+        This is where we have to bind each data element in the list (given by position parameter)
+        to an element in the view (which is one of our two TextView widgets
+         */
         //start by getting the element at the correct position
         FoodItem item = mFoodItems.get(position);
         holder.mFoodItem = item;
-            /*
-              Now we bind the data to the widgets.  In this case, pretty simple, put the quantity in
-              one textview and the name of a food item in the other.
-             */
+        /*
+          Now we bind the data to the widgets.  In this case, pretty simple, put the quantity in
+          one textview and the name of a food item in the other.
+         */
         holder.mNumberView.setText("" + item.getQuantity());
         holder.mNameView.setText(item.getName());
 

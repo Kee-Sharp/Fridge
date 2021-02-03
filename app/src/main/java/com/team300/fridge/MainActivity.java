@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //populate each view with the appropriate view from the activity_main layout file
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -33,16 +35,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        if (savedInstanceState == null) {
-//            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//            FirstFragment fragment = new FirstFragment();
-//            transaction.replace(R.id.sample_fragment, fragment);
-//            transaction.commit();
-//        }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.items);
         Model model = Model.getInstance();
         List<FoodItem> items = model.getFoodItems();
+        //We use our own custom adapter to convert a list of food items into a viewable state
         recyclerView.setAdapter(new SimpleFoodItemRecyclerViewAdapter(items));
     }
 

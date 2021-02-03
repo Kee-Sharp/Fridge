@@ -30,7 +30,7 @@ public class Model {
     private Model() {
         _foodItems = new ArrayList<>();
 
-        //comment this out after full app developed -- for homework leave in
+        //comment this out after full app developed
         loadDummyData();
 
     }
