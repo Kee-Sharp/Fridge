@@ -120,5 +120,7 @@ public class SimpleFoodItemRecyclerViewAdapter
         return mFoodItems.size();
     }
 
-
+    public void setFoodItems(List<FoodItem> foodItems) {
+        this.mFoodItems = foodItems;
+    }
 }
