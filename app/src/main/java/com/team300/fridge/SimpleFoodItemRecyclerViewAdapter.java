@@ -164,9 +164,6 @@ public class SimpleFoodItemRecyclerViewAdapter
             mFoodItems.set(position, food);
             this.notifyItemChanged(position);
         }
-        //test to make sure data updated
-        Snackbar.make(v, mFoodItems.get(position).getName() + " new quantity is: " + mFoodItems.get(position).getQuantity(), Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     public void deleteAll(int position, View v){
