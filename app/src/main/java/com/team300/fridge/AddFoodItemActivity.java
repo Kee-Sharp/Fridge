@@ -29,6 +29,7 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
         AllItemsAdapter mAdapter = new AllItemsAdapter(items);
         recyclerView.setAdapter(mAdapter);
 
+        //return to MainActivity with no new food item
         Button buttonBack = findViewById(R.id.button_second);
         buttonBack.setOnClickListener(v -> {
             Intent result = new Intent(AddFoodItemActivity.this, MainActivity.class);
@@ -38,7 +39,7 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
 
         searchView = findViewById(R.id.searchView);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            //only filters on submit
+            //only filters on submit or when text is empty
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mAdapter.filter(query);
@@ -54,6 +55,7 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
                 return false;
             }
         });
+        //TODO: doesn't work right now
         searchView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -65,14 +67,17 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
             }
         });
 
+        //submits the text to filter
         Button button = findViewById(R.id.searchButton);
         button.setOnClickListener((view)->{
             searchView.setQuery(searchView.getQuery(), true);
         });
     }
 
+    //pass information about the new FoodItem back to the MainActivity
     @Override
     public void saveInformation(String name, String quantity, String dateString) {
+        //reset searchView before going back
         searchView.setQuery("", true);
         String[] separated = dateString.split("/");
         int month = Integer.parseInt(separated[0]);

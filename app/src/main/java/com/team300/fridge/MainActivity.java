@@ -4,13 +4,9 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -42,14 +38,15 @@ public class MainActivity extends AppCompatActivity {
         mAdapter = new FridgeListAdapter(items);
         recyclerView.setAdapter(mAdapter);
 
+        //starts the AddFoodItemActivity, expecting data for a FoodItem in return
         Button addButton = findViewById(R.id.button_first);
-        //adds the same 4 static items to the list, will be replaced with the addFoodItem activity
         addButton.setOnClickListener((view)->{
             Intent intent = new Intent(this, AddFoodItemActivity.class);
             startActivityForResult(intent, ADD_FOOD_ITEM_REQUEST);
         });
     }
 
+    // gets the data from the AddFoodItemActivity, converts it to a FoodItem and adds it to the list
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -66,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     List<FoodItem> items = model.getFoodItems();
                     List<FoodItem> newList = new ArrayList<>();
                     boolean duplicateFound = false;
+                    // if already in list update its' quantity, else just add it
                     for (FoodItem f: items) {
                         if (newItem.getName().equals(f.getName())) {
                             duplicateFound = true;

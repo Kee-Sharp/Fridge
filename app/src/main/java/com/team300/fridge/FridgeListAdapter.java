@@ -122,21 +122,6 @@ public class FridgeListAdapter
                         }
                     }
                 });
-                // code from another app, shows how to move to another activity with the on click
-//                Context context = v.getContext();
-//                //create our new intent with the new screen (activity)
-//                Intent intent = new Intent(context, CourseDetailActivity.class);
-//                /*
-//                    pass along the id of the course so we can retrieve the correct data in
-//                    the next window
-//                 */
-//                intent.putExtra(CourseDetailFragment.ARG_COURSE_ID, holder.mCourse.getId());
-//
-//                model.setCurrentCourse(holder.mCourse);
-//
-//                //now just display the new window
-//                context.startActivity(intent);
-
             }
         });
     }

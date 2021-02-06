@@ -21,17 +21,15 @@ public class FoodItemDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String name = getArguments().getString("Food_Item_Name");
+        //TODO: Once we have brand information show that as well
         //getArguments().getString("Food_Item_Brand");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         View view = getActivity().getLayoutInflater().inflate(R.layout.layout_food_item_dialog, null);
         builder.setView(view)
                 .setTitle(name)
-                .setNegativeButton("cancel", (dialog, which) -> {
+                .setNegativeButton("cancel", (dialog, which) -> {})
+                .setPositiveButton("confirm", (dialog, which) -> {});
 
-                })
-                .setPositiveButton("confirm", (dialog, which) -> {
-
-                });
         editTextQuantity = view.findViewById(R.id.edit_quantity);
         editTextDate = view.findViewById(R.id.edit_date);
 
@@ -42,6 +40,8 @@ public class FoodItemDialog extends AppCompatDialogFragment {
         dialog.dismiss();
         return dialog;
     }
+
+    //We need a custom OnClickListener to be able to validate input before dismissing the dialog
     public class CustomListener implements View.OnClickListener {
         private final Dialog dialog;
         private String name;
@@ -62,15 +62,19 @@ public class FoodItemDialog extends AppCompatDialogFragment {
             }
         }
     }
+
+    //make sure that the string inputted is formatted like a date
     private boolean validate(String s) {
         if (s.matches("[01]\\d/[0123]\\d/\\d{4}")) {
             String[] separated = s.split("/");
             int month = Integer.parseInt(separated[0]);
             int day = Integer.parseInt(separated[1]);
-            return (month != 0 && day != 0);
+            return (month > 0 && month < 13 && day > 0 && day < 32);
         }
         return false;
     }
+
+    //The activity is linked to the dialog as its' listener
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

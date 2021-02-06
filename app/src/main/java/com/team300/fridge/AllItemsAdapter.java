@@ -54,7 +54,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
         /*
 
           This sets up the view for each individual item in the recycler display
-          To edit the actual layout, we would look at: res/layout/text_row_item.xml
+          To edit the actual layout, we would look at: res/layout/search_food_item.xml
           If you look at the example file, you will see it currently just 2 TextView elements
          */
         View view = LayoutInflater.from(parent.getContext())
