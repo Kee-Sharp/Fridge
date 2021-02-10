@@ -83,9 +83,7 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
         int month = Integer.parseInt(separated[0]);
         int day = Integer.parseInt(separated[1]);
         int year = Integer.parseInt(separated[2]);
-        Date date = java.util.Date.from(LocalDate.of(year, month, day).atStartOfDay()
-                .atZone(ZoneId.systemDefault())
-                .toInstant());
+        Date date = Model.toDate(LocalDate.of(year, month, day));
         Log.d("date", date.toString());
         Intent result = new Intent(AddFoodItemActivity.this, MainActivity.class);
         result.putExtra("name", name);

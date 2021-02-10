@@ -1,5 +1,7 @@
 package com.team300.fridge;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -107,5 +109,12 @@ public class Model {
      * @return a list of the food items in the app
      */
     public List<FoodItem> getAllFoodItems() { return _allFoodItems; }
+
+    // method to convert LocalDate into java.util.Date
+    public static Date toDate(LocalDate date) {
+        return java.util.Date.from(date.atStartOfDay()
+                .atZone(ZoneId.systemDefault())
+                .toInstant());
+    }
 
 }
