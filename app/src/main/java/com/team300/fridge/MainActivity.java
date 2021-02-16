@@ -1,15 +1,12 @@
 package com.team300.fridge;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.FragmentTransaction;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -20,8 +17,10 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected SimpleFoodItemRecyclerViewAdapter mAdapter;
-    protected static int newItemCount = 0;
+    protected FridgeListAdapter mAdapter;
+    private static final int ADD_FOOD_ITEM_REQUEST = 1;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,36 +31,55 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.items);
+        RecyclerView recyclerView = findViewById(R.id.items);
         Model model = Model.getInstance();
         List<FoodItem> items = model.getFoodItems();
         //We use our own custom adapter to convert a list of food items into a viewable state
-        mAdapter = new SimpleFoodItemRecyclerViewAdapter(items);
+        mAdapter = new FridgeListAdapter(items);
         recyclerView.setAdapter(mAdapter);
 
+        //starts the AddFoodItemActivity, expecting data for a FoodItem in return
         Button addButton = findViewById(R.id.button_first);
-        //adds the same 4 static items to the list, will be replaced with the addFoodItem activity
         addButton.setOnClickListener((view)->{
-            List<FoodItem> newItems = new ArrayList<>();
-            Date today = new Date();
-            newItems.add(new FoodItem("Banana", 5, 3, today));
-            newItems.add(new FoodItem("Bacon", 6, 8, today));
-            newItems.add(new FoodItem("Ketchup", 7, 1, today));
-            newItems.add(new FoodItem("Grape Fanta", 8, 2, today));
-            model.addFoodItem(newItems.get(newItemCount++ % 4));
-            mAdapter.setFoodItems(model.getFoodItems());
-            mAdapter.notifyItemInserted(model.getFoodItems().size() - 1);
+            Intent intent = new Intent(this, AddFoodItemActivity.class);
+            startActivityForResult(intent, ADD_FOOD_ITEM_REQUEST);
         });
+    }
+
+    // gets the data from the AddFoodItemActivity, converts it to a FoodItem and adds it to the list
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_FOOD_ITEM_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    String name = bundle.getString("name");
+                    int productId = 100; //reverse lookup name to get actual product id later
+                    int quantity = bundle.getInt("quantity");
+                    Date date = (Date) bundle.getSerializable("date");
+                    FoodItem newItem = new FoodItem(name, productId, quantity, date);
+                    Model model = Model.getInstance();
+                    List<FoodItem> items = model.getFoodItems();
+                    List<FoodItem> newList = new ArrayList<>();
+                    boolean duplicateFound = false;
+                    // if already in list update its' quantity, else just add it
+                    for (FoodItem f: items) {
+                        if (newItem.getName().equals(f.getName())) {
+                            duplicateFound = true;
+                            f.setQuantity(f.getQuantity() + newItem.getQuantity());
+                        }
+                        newList.add(f);
+                    }
+                    if (!duplicateFound) {
+                        newList.add(newItem);
+                    }
+                    model.setFoodItems(newList);
+                    mAdapter.setFoodItems(newList);
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+        }
     }
 
     @Override

@@ -61,5 +61,16 @@ public class FoodItem {
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
     }
+
+    @Override
+    public String toString() {
+        return "FoodItem{" +
+                "name='" + name + '\'' +
+                ", productId=" + productId +
+                ", quantity=" + quantity +
+                ", location='" + location + '\'' +
+                ", purchaseDate=" + purchaseDate +
+                '}';
+    }
 }
 
