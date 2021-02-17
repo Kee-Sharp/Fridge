@@ -12,4 +12,5 @@
     <string name="looks_like_your_fridge_is_empty_at_the_moment">Looks like your fridge is empty at the moment!</string>
     <string name="find_food">Find Food</string>
     <string name="search">Search</string>
+    <string name="no_grocery_lists">Looks like you have no lists yet!</string>
 </resources>

@@ -23,10 +23,12 @@ public class Model {
     private static final Model _instance = new Model();
     public static Model getInstance() { return _instance; }
 
-    /** holds the list of the users food items */
+    /** holds the list of the user's food items */
     private List<FoodItem> _foodItems;
     /** holds the list of all the food items */
     private List<FoodItem> _allFoodItems;
+    /** holds the list of all the user's grocery lists */
+    private List<GroceryList> _groceryLists;
 
 
     /**
@@ -35,6 +37,7 @@ public class Model {
     private Model() {
         _foodItems = new ArrayList<>();
         _allFoodItems = new ArrayList<>();
+        _groceryLists = new ArrayList<>();
         //comment this out after full app developed
         loadDummyData();
 
@@ -76,6 +79,20 @@ public class Model {
         for (String n: names) {
             _allFoodItems.add(new FoodItem(n, id++, 1, today));
         }
+        List<FoodItem> list1 = new ArrayList<>();
+        List<FoodItem> list2 = new ArrayList<>();
+        int[] positions1 = {0, 1, 2, 3, 5, 8, 13};
+        int[] positions2 = {6, 7, 8, 9, 10, 11, 12};
+        for (int i: positions1) {
+            list1.add(_allFoodItems.get(i));
+        }
+        for (int i: positions2) {
+            list2.add(_allFoodItems.get(i));
+        }
+        GroceryList groceryList = new GroceryList("List 1", list1);
+        groceryList.setCreatedOn(Model.toDate(LocalDate.of(2021, 1, 14)));
+        _groceryLists.add(groceryList);
+        _groceryLists.add(new GroceryList("List 2", list2));
     }
 
     /**
@@ -109,6 +126,14 @@ public class Model {
      * @return a list of the food items in the app
      */
     public List<FoodItem> getAllFoodItems() { return _allFoodItems; }
+
+    public List<GroceryList> getGroceryLists() {
+        return _groceryLists;
+    }
+
+    public void setGroceryLists(List<GroceryList> groceryLists) {
+        this._groceryLists = groceryLists;
+    }
 
     // method to convert LocalDate into java.util.Date
     public static Date toDate(LocalDate date) {
