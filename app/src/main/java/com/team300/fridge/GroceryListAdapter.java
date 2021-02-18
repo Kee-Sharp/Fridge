@@ -106,6 +106,7 @@ public class GroceryListAdapter
                                 String newName = rename(context);
                                 int listId = viewHolder.getAdapterPosition();
                                 mGroceryLists.get(listId).setName(newName);
+                                notifyItemChanged(listId);
                                 return true;
                             default:
                                 return false;

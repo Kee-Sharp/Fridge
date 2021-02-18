@@ -1,7 +1,9 @@
 package com.team300.fridge;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,6 +55,17 @@ public class GroceryListFoodAdapter
         FoodItem item = mItems.get(position);
         viewHolder.mNameView.setText(item.getName());
         viewHolder.mView.setSelected(selectedPositions.contains(position));
+        Model model = Model.getInstance();
+        List<FoodItem> foodItems = model.getFoodItems();
+        //TODO: buggy, highlighting items that arent in fridge
+        //highlight the items that are currently in fridge
+        boolean contains = false;
+        for (FoodItem f: foodItems) {
+            if (item.getName().equals(f.getName())) contains = true;
+        }
+        if (contains) {
+            viewHolder.mNameView.setTextColor(Color.GRAY);
+        }
         viewHolder.mView.setOnClickListener((view) -> {
             //TODO: we could potentially just use the position parameter but this is how an example
             // did this, look into later
