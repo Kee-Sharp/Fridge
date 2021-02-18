@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -44,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddFoodItemActivity.class);
             startActivityForResult(intent, ADD_FOOD_ITEM_REQUEST);
         });
+
+        //starts the GroceryListsActivity
+        Button groceryListButton = findViewById(R.id.button_second);
+        groceryListButton.setOnClickListener((view)->{
+            Intent intent = new Intent(this, ViewGroceryListsActivity.class);
+            startActivity(intent);
+        });
     }
 
     // gets the data from the AddFoodItemActivity, converts it to a FoodItem and adds it to the list
@@ -61,19 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     FoodItem newItem = new FoodItem(name, productId, quantity, date);
                     Model model = Model.getInstance();
                     List<FoodItem> items = model.getFoodItems();
-                    List<FoodItem> newList = new ArrayList<>();
-                    boolean duplicateFound = false;
-                    // if already in list update its' quantity, else just add it
-                    for (FoodItem f: items) {
-                        if (newItem.getName().equals(f.getName())) {
-                            duplicateFound = true;
-                            f.setQuantity(f.getQuantity() + newItem.getQuantity());
-                        }
-                        newList.add(f);
-                    }
-                    if (!duplicateFound) {
-                        newList.add(newItem);
-                    }
+                    List<FoodItem> newList = FoodItem.addFoodItemToList(items, newItem);
                     model.setFoodItems(newList);
                     mAdapter.setFoodItems(newList);
                     mAdapter.notifyDataSetChanged();

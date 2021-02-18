@@ -1,7 +1,9 @@
 package com.team300.fridge;
 
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class FoodItem {
     private String name;
@@ -71,6 +73,23 @@ public class FoodItem {
                 ", location='" + location + '\'' +
                 ", purchaseDate=" + purchaseDate +
                 '}';
+    }
+
+    public static List<FoodItem> addFoodItemToList(List<FoodItem> items, FoodItem newItem) {
+        List<FoodItem> newList = new ArrayList<>();
+        boolean duplicateFound = false;
+        // if already in list update its' quantity, else just add it
+        for (FoodItem f: items) {
+            if (newItem.getName().equals(f.getName())) {
+                duplicateFound = true;
+                f.setQuantity(f.getQuantity() + newItem.getQuantity());
+            }
+            newList.add(f);
+        }
+        if (!duplicateFound) {
+            newList.add(newItem);
+        }
+        return newList;
     }
 }
 
