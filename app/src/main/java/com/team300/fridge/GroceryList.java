@@ -1,11 +1,15 @@
 package com.team300.fridge;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.security.InvalidParameterException;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GroceryList {
+public class GroceryList implements Parcelable {
     private String name;
     private Date createdOn;
     private List<FoodItem> items;
@@ -21,6 +25,40 @@ public class GroceryList {
             this.items = items;
         }
     }
+    //create FoodItem from parcel information
+    private GroceryList(Parcel in){
+        this.name = in.readString();
+        this.createdOn = (java.util.Date)in.readSerializable();
+        List<FoodItem> foodItems = new ArrayList<FoodItem>();
+        //this.items = in.readList(foodItems, FoodItem.class.getClassLoader());
+        //TODO: figure out how to use parcelable with lists ^
+    }
+    //------------------------------------Parcelable //TODO: ensure correct data is passed in/out
+    //rarely need this for anything
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+    //write necessary data
+    @Override
+    public void writeToParcel(Parcel out, int flags){
+        out.writeString(name);
+        out.writeSerializable(createdOn);
+        out.writeList(items);
+    }
+    //need creator field for new items
+    private static final Parcelable.Creator<GroceryList> CREATOR
+            = new Parcelable.Creator<GroceryList>(){
+        @Override
+        public GroceryList createFromParcel(Parcel in){
+            return new GroceryList(in);
+        }
+        @Override
+        public GroceryList[] newArray(int size){
+            return new GroceryList[size];
+        }
+    };
+//------------------------------------------------
 
     public String getName() {
         return name;

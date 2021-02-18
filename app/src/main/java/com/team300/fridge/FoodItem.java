@@ -1,11 +1,14 @@
 package com.team300.fridge;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class FoodItem {
+public class FoodItem implements Parcelable {
     private String name;
     private int productId; //based on FoodKeeper Data
     private int quantity; //unit quantity of item
@@ -20,7 +23,42 @@ public class FoodItem {
             this.purchaseDate = purchaseDate;
         }
     }
-
+    //create FoodItem from parcel information
+    private FoodItem(Parcel in){
+        name = in.readString();
+        productId = in.readInt();
+        quantity = in.readInt();
+        location = in.readString();
+        purchaseDate = (java.util.Date)in.readSerializable();
+    }
+//------------------------------------Parcelable //TODO: ensure correct data is passed in/out
+    //rarely need this for anything
+    @Override
+    public int describeContents(){
+        return 0;
+    }
+    //write necessary data
+    @Override
+    public void writeToParcel(Parcel out, int flags){
+        out.writeString(name);
+        out.writeInt(productId);
+        out.writeInt(quantity);
+        out.writeString(location);
+        out.writeSerializable(purchaseDate);
+    }
+    //need creator field for new items
+    private static final Parcelable.Creator<FoodItem> CREATOR
+            = new Parcelable.Creator<FoodItem>(){
+        @Override
+        public FoodItem createFromParcel(Parcel in){
+            return new FoodItem(in);
+        }
+        @Override
+        public FoodItem[] newArray(int size){
+            return new FoodItem[size];
+        }
+    };
+//------------------------------------------------
     private Date findBestByDate() {
         return null;
     }
