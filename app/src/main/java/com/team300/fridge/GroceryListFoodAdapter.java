@@ -57,7 +57,6 @@ public class GroceryListFoodAdapter
         viewHolder.mView.setSelected(selectedPositions.contains(position));
         Model model = Model.getInstance();
         List<FoodItem> foodItems = model.getFoodItems();
-        //TODO: buggy, highlighting items that arent in fridge
         //highlight the items that are currently in fridge
         boolean contains = false;
         for (FoodItem f: foodItems) {
@@ -65,6 +64,8 @@ public class GroceryListFoodAdapter
         }
         if (contains) {
             viewHolder.mNameView.setTextColor(Color.GRAY);
+        } else {
+            viewHolder.mNameView.setTextColor(Color.BLACK);
         }
         viewHolder.mView.setOnClickListener((view) -> {
             //TODO: we could potentially just use the position parameter but this is how an example
