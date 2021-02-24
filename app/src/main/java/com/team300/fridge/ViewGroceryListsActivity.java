@@ -12,8 +12,7 @@ import java.util.List;
 
 public class ViewGroceryListsActivity extends AppCompatActivity {
 
-//    protected GroceryListAdapter mAdapter;
-    protected FridgeListAdapter mAdapter;
+    protected GroceryListAdapter mAdapter;
     private static final int ADD_GROCERY_LIST_REQUEST = 1;
 
     @Override
@@ -25,14 +24,14 @@ public class ViewGroceryListsActivity extends AppCompatActivity {
         Model model = Model.getInstance();
         List<FoodItem> items = model.getFoodItems();
         List<GroceryList> groceryLists = model.getGroceryLists();
-        //TODO: Replace with GroceryListAdapter
-        mAdapter = new FridgeListAdapter(groceryLists.get(0).getItems());
-//        mAdapter = new GroceryListAdapter(groceryLists);
+        mAdapter = new GroceryListAdapter(groceryLists);
         recyclerView.setAdapter(mAdapter);
 
         TextView noGroceryLists = findViewById(R.id.no_grocery_lists);
         if (items.size() == 0) {
+            //Replace recyclerView with text saying no items
             noGroceryLists.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
         }
 
         Button addButton = findViewById(R.id.add_button);
