@@ -29,22 +29,21 @@ public class GroceryList implements Parcelable {
     private GroceryList(Parcel in){
         this.name = in.readString();
         this.createdOn = (java.util.Date)in.readSerializable();
-        List<FoodItem> foodItems = new ArrayList<FoodItem>();
-        //this.items = in.readList(foodItems, FoodItem.class.getClassLoader());
-        //TODO: figure out how to use parcelable with lists ^
+        items = new ArrayList<>();
+        in.readTypedList(items, FoodItem.CREATOR);
     }
     //------------------------------------Parcelable //TODO: ensure correct data is passed in/out
     //rarely need this for anything
     @Override
     public int describeContents(){
-        return 0;
+        return this.hashCode();
     }
     //write necessary data
     @Override
     public void writeToParcel(Parcel out, int flags){
         out.writeString(name);
         out.writeSerializable(createdOn);
-        out.writeList(items);
+        out.writeTypedList(items);
     }
     //need creator field for new items
     private static final Parcelable.Creator<GroceryList> CREATOR
@@ -87,5 +86,14 @@ public class GroceryList implements Parcelable {
 
     public void addItem(FoodItem item) {
         this.items = FoodItem.addFoodItemToList(items, item);
+    }
+
+    @Override
+    public String toString() {
+        return "GroceryList{" +
+                "name='" + name + '\'' +
+                ", createdOn=" + createdOn +
+                ", items=" + items +
+                '}';
     }
 }

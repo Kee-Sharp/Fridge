@@ -35,7 +35,7 @@ public class FoodItem implements Parcelable {
     //rarely need this for anything
     @Override
     public int describeContents(){
-        return 0;
+        return this.hashCode();
     }
     //write necessary data
     @Override
@@ -47,7 +47,7 @@ public class FoodItem implements Parcelable {
         out.writeSerializable(purchaseDate);
     }
     //need creator field for new items
-    private static final Parcelable.Creator<FoodItem> CREATOR
+    public static final Parcelable.Creator<FoodItem> CREATOR
             = new Parcelable.Creator<FoodItem>(){
         @Override
         public FoodItem createFromParcel(Parcel in){

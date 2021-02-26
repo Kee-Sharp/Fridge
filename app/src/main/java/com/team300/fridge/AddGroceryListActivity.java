@@ -1,8 +1,11 @@
 package com.team300.fridge;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -28,6 +31,12 @@ public class AddGroceryListActivity extends AppCompatActivity {
         Button finishButton = findViewById(R.id.finishButton);
         finishButton.setOnClickListener((view) -> {
             //return to ViewGroceryListsActivity with information
+            Intent result = new Intent(AddGroceryListActivity.this, ViewGroceryListsActivity.class);
+            GroceryList newGroceryList = new GroceryList(groceryListName.getText().toString(), mAdapter.getSelectedItems());
+            Log.d("grocery list", newGroceryList.toString());
+            result.putExtra("new list", newGroceryList);
+            setResult(Activity.RESULT_OK, result);
+            finish();
         });
 
     }
