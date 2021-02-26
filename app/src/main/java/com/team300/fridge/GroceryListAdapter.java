@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AlertDialogLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroupOverlay;
 import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -103,9 +101,9 @@ public class GroceryListAdapter
                         switch (item.getItemId()) {
                             case R.id.rename:
                                 //rename
-                                String newName = rename(context);
                                 int listId = viewHolder.getAdapterPosition();
-                                mGroceryLists.get(listId).setName(newName);
+                                rename(context, mGroceryLists.get(listId).getName(), listId);
+                                //mGroceryLists.get(listId).setName(newName);
                                 notifyItemChanged(listId);
                                 return true;
                             default:
@@ -117,7 +115,7 @@ public class GroceryListAdapter
         });
     }
 
-    public String rename(Context context) {
+    public void rename(Context context, String oldName, int listID) {
         //create an alert dialogue with an edittext component to get new name from user
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Rename");
@@ -130,16 +128,22 @@ public class GroceryListAdapter
             @Override
             public void onClick(DialogInterface dialog, int i){
                 userInput = input.getText().toString();
+                mGroceryLists.get(listID).setName(userInput);
+                notifyItemChanged(listID);
+                dialog.dismiss();
+
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int i) {
+                mGroceryLists.get(listID).setName(oldName);
                 dialog.cancel();
+                notifyItemChanged(listID);
+
             }
         });
         builder.show();
-        return userInput;
     }
 
     @Override
