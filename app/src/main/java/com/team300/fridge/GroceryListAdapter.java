@@ -129,8 +129,8 @@ public class GroceryListAdapter
             public void onClick(DialogInterface dialog, int i){
                 userInput = input.getText().toString();
                 mGroceryLists.get(listID).setName(userInput);
-                dialog.cancel();
                 notifyItemChanged(listID);
+                dialog.dismiss();
 
             }
         });
