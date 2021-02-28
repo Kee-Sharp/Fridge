@@ -88,4 +88,12 @@ public class GroceryListFoodAdapter
     public int getItemCount() {
         return mItems.size();
     }
+
+    public List<FoodItem> getSelectedItems() {
+        List<FoodItem> selectedItems = new ArrayList<>();
+        for (int i: selectedPositions) {
+            selectedItems.add(mItems.get(i));
+        }
+        return selectedItems;
+    }
 }
