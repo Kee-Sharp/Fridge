@@ -28,6 +28,12 @@ public class AddGroceryListActivity extends AppCompatActivity {
         GroceryListFoodAdapter mAdapter = new GroceryListFoodAdapter(items);
         recyclerView.setAdapter(mAdapter);
 
+        Button cancelButton = findViewById(R.id.cancelButton);
+        cancelButton.setOnClickListener((view)-> {
+            setResult(Activity.RESULT_CANCELED);
+            finish();
+        });
+
         Button finishButton = findViewById(R.id.finishButton);
         finishButton.setOnClickListener((view) -> {
             //error handling
