@@ -46,7 +46,7 @@ public class GroceryList implements Parcelable {
         out.writeTypedList(items);
     }
     //need creator field for new items
-    private static final Parcelable.Creator<GroceryList> CREATOR
+    public static final Parcelable.Creator<GroceryList> CREATOR
             = new Parcelable.Creator<GroceryList>(){
         @Override
         public GroceryList createFromParcel(Parcel in){
