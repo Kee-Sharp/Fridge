@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class GroceryListAdapter
@@ -78,7 +79,7 @@ public class GroceryListAdapter
           Now we bind the data to the widgets.  In this case, pretty simple, put the date in
           one textview and the name of a grocery list in the other.
          */
-        viewHolder.mDateView.setText("" + item.getCreatedOn());
+        viewHolder.mDateView.setText("Created on: " + DateFormat.getDateInstance().format(item.getCreatedOn()));
         viewHolder.mNameView.setText(item.getName());
 
         /*
@@ -149,5 +150,10 @@ public class GroceryListAdapter
     @Override
     public int getItemCount() {
         return mGroceryLists.size();
+    }
+
+    public void setItems(List<GroceryList> groceryLists) {
+        this.mGroceryLists = groceryLists;
+        notifyDataSetChanged();
     }
 }

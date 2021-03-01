@@ -1,6 +1,8 @@
 package com.team300.fridge;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -40,5 +42,22 @@ public class ViewGroceryListsActivity extends AppCompatActivity {
             startActivityForResult(intent, ADD_GROCERY_LIST_REQUEST);
         });
 
+    }
+
+    //adds the new GroceryList into the main list
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == ADD_GROCERY_LIST_REQUEST) {
+            if (resultCode == Activity.RESULT_OK) {
+                Bundle bundle = data.getExtras();
+                if (bundle != null) {
+                    GroceryList newGroceryList = bundle.getParcelable("new_list");
+                    Model model = Model.getInstance();
+                    model.addGroceryList(newGroceryList);
+                    mAdapter.setItems(model.getGroceryLists());
+                }
+            }
+        }
     }
 }

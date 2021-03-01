@@ -89,10 +89,12 @@ public class Model {
         for (int i: positions2) {
             list2.add(_allFoodItems.get(i));
         }
-        GroceryList groceryList = new GroceryList("List 1", list1);
-        groceryList.setCreatedOn(Model.toDate(LocalDate.of(2021, 1, 14)));
-        _groceryLists.add(groceryList);
-        _groceryLists.add(new GroceryList("List 2", list2));
+        GroceryList groceryList1 = new GroceryList("List 1", list1);
+        groceryList1.setCreatedOn(Model.toDate(LocalDate.of(2021, 1, 14)));
+        _groceryLists.add(groceryList1);
+        GroceryList groceryList2 = new GroceryList("List 2", list2);
+        groceryList2.setCreatedOn(Model.toDate(LocalDate.of(2021, 2, 27)));
+        _groceryLists.add(groceryList2);
     }
 
     /**
@@ -133,6 +135,10 @@ public class Model {
 
     public void setGroceryLists(List<GroceryList> groceryLists) {
         this._groceryLists = groceryLists;
+    }
+
+    public void addGroceryList(GroceryList newGroceryList) {
+        _groceryLists.add(newGroceryList);
     }
 
     // method to convert LocalDate into java.util.Date
