@@ -16,8 +16,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    protected FridgeListAdapter mAdapter;
-    private static final int ADD_FOOD_ITEM_REQUEST = 1;
+
 
 
 
@@ -30,51 +29,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        RecyclerView recyclerView = findViewById(R.id.items);
-        Model model = Model.getInstance();
-        List<FoodItem> items = model.getFoodItems();
-        //We use our own custom adapter to convert a list of food items into a viewable state
-        mAdapter = new FridgeListAdapter(items);
-        recyclerView.setAdapter(mAdapter);
-
-        //starts the AddFoodItemActivity, expecting data for a FoodItem in return
-        Button addButton = findViewById(R.id.button_first);
-        addButton.setOnClickListener((view)->{
-            Intent intent = new Intent(this, AddFoodItemActivity.class);
-            startActivityForResult(intent, ADD_FOOD_ITEM_REQUEST);
-        });
-
-        //starts the GroceryListsActivity
-        Button groceryListButton = findViewById(R.id.button_second);
-        groceryListButton.setOnClickListener((view)->{
-            Intent intent = new Intent(this, ViewGroceryListsActivity.class);
-            startActivity(intent);
-        });
     }
 
-    // gets the data from the AddFoodItemActivity, converts it to a FoodItem and adds it to the list
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == ADD_FOOD_ITEM_REQUEST) {
-            if (resultCode == Activity.RESULT_OK) {
-                Bundle bundle = data.getExtras();
-                if (bundle != null) {
-                    String name = bundle.getString("name");
-                    int productId = 100; //reverse lookup name to get actual product id later
-                    int quantity = bundle.getInt("quantity");
-                    Date date = (Date) bundle.getSerializable("date");
-                    FoodItem newItem = new FoodItem(name, productId, quantity, date);
-                    Model model = Model.getInstance();
-                    List<FoodItem> items = model.getFoodItems();
-                    List<FoodItem> newList = FoodItem.addFoodItemToList(items, newItem);
-                    model.setFoodItems(newList);
-                    mAdapter.setFoodItems(newList);
-                    mAdapter.notifyDataSetChanged();
-                }
-            }
-        }
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
