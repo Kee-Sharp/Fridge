@@ -12,13 +12,17 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import com.team300.fridge.Tabs.FridgeFragment;
+import com.team300.fridge.Tabs.UserFragment;
 import com.team300.fridge.Tabs.ViewGroceryListsFragment;
 
+import java.time.DayOfWeek;
 import java.util.Date;
 import java.util.List;
 
@@ -94,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
             switch (position) {
                 case 0:
                     return ViewGroceryListsFragment.newInstance();
-                default:
-                    //case 2 will be UserFragment once it's implemented
+                case 1:
                     return FridgeFragment.newInstance();
+                default:
+                    //should be replaced with database call to the current user
+                    return UserFragment.newInstance(new User("Spencer Kee", "skee8@gatech.edu"));
             }
         }
 
@@ -106,5 +112,10 @@ public class MainActivity extends AppCompatActivity {
             return 3;
         }
 
+    }
+
+    public void onCheckboxClicked(View view) {
+        UserFragment fragment = (UserFragment) mPagerAdapter.getRegisteredFragment(2);
+        fragment.onCheckboxClicked(view);
     }
 }
