@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Fridge">
         <activity android:name=".AddGroceryListActivity"></activity>
-        <activity android:name=".ViewGroceryListsActivity" />
         <activity android:name=".AddFoodItemActivity" />
         <activity
             android:name=".MainActivity"
