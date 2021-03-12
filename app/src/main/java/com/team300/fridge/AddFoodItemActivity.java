@@ -32,8 +32,7 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
         //return to MainActivity with no new food item
         Button buttonBack = findViewById(R.id.button_second);
         buttonBack.setOnClickListener(v -> {
-            Intent result = new Intent(AddFoodItemActivity.this, MainActivity.class);
-            setResult(Activity.RESULT_CANCELED, result);
+            setResult(Activity.RESULT_CANCELED);
             finish();
         });
 

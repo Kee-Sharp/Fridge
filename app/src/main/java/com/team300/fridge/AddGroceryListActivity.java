@@ -48,8 +48,8 @@ public class AddGroceryListActivity extends AppCompatActivity {
                 error = true;
             }
             if (!error) {
-                //return to ViewGroceryListsActivity with information
-                Intent result = new Intent(AddGroceryListActivity.this, ViewGroceryListsActivity.class);
+                //return to ViewGroceryListsFragment with information
+                Intent result = new Intent(AddGroceryListActivity.this, MainActivity.class);
                 GroceryList newGroceryList = new GroceryList(groceryListName.getText().toString(), mAdapter.getSelectedItems());
                 result.putExtra("new_list", newGroceryList);
                 setResult(Activity.RESULT_OK, result);

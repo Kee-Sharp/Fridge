@@ -16,7 +16,6 @@ import com.team300.fridge.FoodItem;
 import com.team300.fridge.FridgeListAdapter;
 import com.team300.fridge.Model;
 import com.team300.fridge.R;
-import com.team300.fridge.ViewGroceryListsActivity;
 
 import java.util.Date;
 import java.util.List;
