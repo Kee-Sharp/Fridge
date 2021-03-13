@@ -4,10 +4,12 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NotificationCompat;
@@ -17,12 +19,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.team300.fridge.AddFoodItemActivity;
+import com.team300.fridge.FoodItemDialog;
+import com.team300.fridge.MainActivity;
 import com.team300.fridge.NotificationUtils;
+import com.team300.fridge.OpenSettingsDialogFragment;
 import com.team300.fridge.R;
 import com.team300.fridge.User;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -105,9 +114,25 @@ public class UserFragment extends Fragment {
         Button demoNotification = view.findViewById(R.id.demo);
         demoNotification.setOnClickListener((v)->{
             //for demonstration purposes, we have to trigger a notification
-            //set up a notification for 15 seconds later
-            Context context = demoNotification.getContext();
-            createNotification(context);
+            //set up a notification for 5 seconds later if today is one of the notification dates
+            NotificationChannel myNotificationChannel = mNotificationUtils.getManager().getNotificationChannel(NotificationUtils.ANDROID_CHANNEL_ID);
+            if (myNotificationChannel.getImportance() == NotificationManager.IMPORTANCE_HIGH) {
+                LocalDate today = LocalDate.now();
+                if (notificationDates.contains(today.getDayOfWeek())) {
+                    Context context = demoNotification.getContext();
+                    createNotification(context);
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "No Notifications Today", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                //otherwise their is a user setting preventing the heads-up notification, open dialog to
+                //ask user to change it
+                OpenSettingsDialogFragment dialog = new OpenSettingsDialogFragment();
+                Bundle args = new Bundle();
+                args.putString("Channel_Id", myNotificationChannel.getId());
+                dialog.setArguments(args);
+                dialog.show(getActivity().getSupportFragmentManager(), "Open Settings Dialog");
+            }
         });
     }
 
@@ -151,7 +176,6 @@ public class UserFragment extends Fragment {
     //create notification for non-demo will need to take in values from notificationDates as well
     //notif icon drawable for custom icon if we want
     private void createNotification(Context context){
-        System.out.println("Create notification");
         String notifMsg = "It's time to check your fridge before your food goes bad!";
         //Notification object creation
         Notification.Builder builder = mNotificationUtils.getAndroidChannelNotification("What's in your Fridge?", notifMsg);
@@ -160,7 +184,7 @@ public class UserFragment extends Fragment {
             public void run() {
                 mNotificationUtils.getManager().notify(0, builder.build());
             }
-        }, 15000);
+        }, 5000);
     }
 
 }
