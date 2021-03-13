@@ -1,8 +1,16 @@
 package com.team300.fridge.Tabs;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +18,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.team300.fridge.NotificationUtils;
 import com.team300.fridge.R;
 import com.team300.fridge.User;
 
@@ -25,7 +34,7 @@ public class UserFragment extends Fragment {
 
     private static final String USER_ARG = "user";
     private User mUser;
-
+    private NotificationUtils mNotificationUtils;
     CheckBox[] checkBoxes;
 
     public UserFragment() {
@@ -53,6 +62,7 @@ public class UserFragment extends Fragment {
         if (getArguments() != null) {
             mUser = getArguments().getParcelable(USER_ARG);
         }
+        mNotificationUtils = new NotificationUtils(this.getContext());
     }
 
     @Override
@@ -96,6 +106,8 @@ public class UserFragment extends Fragment {
         demoNotification.setOnClickListener((v)->{
             //for demonstration purposes, we have to trigger a notification
             //set up a notification for 15 seconds later
+            Context context = demoNotification.getContext();
+            createNotification(context);
         });
     }
 
@@ -134,4 +146,21 @@ public class UserFragment extends Fragment {
             mUser.removeDate(day);
         }
     }
+
+    //DEMO-NOTIF
+    //create notification for non-demo will need to take in values from notificationDates as well
+    //notif icon drawable for custom icon if we want
+    private void createNotification(Context context){
+        System.out.println("Create notification");
+        String notifMsg = "It's time to check your fridge before your food goes bad!";
+        //Notification object creation
+        Notification.Builder builder = mNotificationUtils.getAndroidChannelNotification("What's in your Fridge?", notifMsg);
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mNotificationUtils.getManager().notify(0, builder.build());
+            }
+        }, 15000);
+    }
+
 }
