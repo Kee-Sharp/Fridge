@@ -9,7 +9,8 @@
 
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="looks_like_your_fridge_is_empty_at_the_moment">Looks like your fridge is empty at the moment!</string>
+    <string name="looks_like_your_fridge_is_empty_at_the_moment">Looks like your fridge is empty at
+        the moment!</string>
     <string name="find_food">Find Food</string>
     <string name="search">Search</string>
     <string name="no_grocery_lists">Looks like you have no lists yet!</string>
@@ -17,6 +18,7 @@
     <string name="tab_text_1">Lists</string>
     <string name="tab_text_2">Fridge</string>
     <string name="tab_text_3">Profile</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="change_notification_settings">Currently your user settings dont allow for heads up
+        notifications. Would you like to change the notification behavior?</string>
 </resources>

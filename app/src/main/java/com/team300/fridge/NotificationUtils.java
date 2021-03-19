@@ -22,7 +22,7 @@ public class NotificationUtils extends ContextWrapper {
 
         // create android channel
         NotificationChannel androidChannel = new NotificationChannel(ANDROID_CHANNEL_ID,
-                ANDROID_CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+                ANDROID_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
         // Sets whether notifications posted to this channel should display notification lights
         androidChannel.enableLights(true);
         // Sets whether notification posted to this channel should vibrate.
