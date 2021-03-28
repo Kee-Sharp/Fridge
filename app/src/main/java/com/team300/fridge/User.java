@@ -3,7 +3,6 @@ package com.team300.fridge;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.Button;
-
 import java.security.InvalidParameterException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
@@ -99,15 +98,6 @@ public class User extends AppCompatActivity implements Parcelable {
         return notificationDates.remove(dow);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        Button finance = findViewById(R.id.financeButton);
-        finance.setOnClickListener((view)->{
-            setContentView(R.layout.activity_view_finance);
-        });
-    }
 
 
 }
