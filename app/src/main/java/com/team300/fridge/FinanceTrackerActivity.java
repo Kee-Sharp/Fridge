@@ -57,28 +57,11 @@ public class FinanceTrackerActivity extends AppCompatActivity {
 
     Float thisMonthTotal;
 
-//    @Override
-//    public void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//
-//        Button cancelButton = findViewById(R.id.cancelButton);
-//        cancelButton.setOnClickListener((view)-> {
-//            setResult(Activity.RESULT_CANCELED);
-//            finish();
-//        });
-//
-//        Button finance = findViewById(R.id.financeButton);
-//        finance.setOnClickListener((view)-> {
-//            setContentView(R.layout.activity_view_finance);
-//        });
-//
-//    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_finance);
-
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_view_finance);
+//
 //        //TODO: update with real values
 //        //populating priceCategory hashmap
 //        priceCategories.put("BF", 1.0f); // Baby Food
@@ -112,13 +95,13 @@ public class FinanceTrackerActivity extends AppCompatActivity {
 //        monthTotals.add(73.68f); // Feb '21
 //
 //        //to iterate through wasted hashmap
-//        Iterator it = wastedItems.entrySet().iterator();
-//        while (it.hasNext()) {
-//            Map.Entry pair = (Map.Entry)it.next();
-//            System.out.println(pair.getKey() + " = " + pair.getValue());
-//            thisMonthTotal += (float) pair.getValue(); //TODO: add logic other hashmap
-//            it.remove(); // avoids a ConcurrentModificationException
-//        }
+////        Iterator it = wastedItems.entrySet().iterator();
+////        while (it.hasNext()) {
+////            Map.Entry pair = (Map.Entry)it.next();
+////            System.out.println(pair.getKey() + " = " + pair.getValue());
+////            thisMonthTotal += (float) pair.getValue(); //TODO: add logic other hashmap
+////            it.remove(); // avoids a ConcurrentModificationException
+////        }
 //        thisMonthTotal += 11.91f; //dummydata
 //
 //        monthTotals.add(thisMonthTotal);
@@ -126,13 +109,13 @@ public class FinanceTrackerActivity extends AppCompatActivity {
 //        BarChart barChart = (BarChart) findViewById(R.id.barchart);
 //
 //        ArrayList<BarEntry> entries = new ArrayList<>();
-//        entries.add(new BarEntry(monthTotals.get(0), 0));
-//        entries.add(new BarEntry(monthTotals.get(1), 1));
-//        entries.add(new BarEntry(monthTotals.get(2), 2));
+////        entries.add(new BarEntry(monthTotals.get(0), 0));
+////        entries.add(new BarEntry(monthTotals.get(1), 1));
+////        entries.add(new BarEntry(monthTotals.get(2), 2));
 //        //reference of way that should work in case above doesn't
-////        entries.add(new BarEntry(8f, 0));
-////        entries.add(new BarEntry(2f, 1));
-////        entries.add(new BarEntry(5f, 2));
+//        entries.add(new BarEntry(8f, 0));
+//        entries.add(new BarEntry(2f, 1));
+//        entries.add(new BarEntry(5f, 2));
 //
 //        BarDataSet bardataset = new BarDataSet(entries, "Cells");
 //
@@ -146,5 +129,33 @@ public class FinanceTrackerActivity extends AppCompatActivity {
 //        barChart.setDescription("Set Bar Chart Description Here");  // set the description
 //        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
 //        barChart.animateY(5000);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_view_finance);
+
+        BarChart barChart = (BarChart) findViewById(R.id.barchart);
+
+        ArrayList<BarEntry> entries = new ArrayList<>();
+        entries.add(new BarEntry(8f, 0));
+        entries.add(new BarEntry(2f, 1));
+        entries.add(new BarEntry(5f, 2));
+        entries.add(new BarEntry(20f, 3));
+        entries.add(new BarEntry(15f, 4));
+        entries.add(new BarEntry(19f, 5));
+
+        BarDataSet bardataset = new BarDataSet(entries, "Cells");
+
+        ArrayList<String> labels = new ArrayList<String>();
+        labels.add("2016");
+        labels.add("2015");
+        labels.add("2014");
+        labels.add("2013");
+        labels.add("2012");
+        labels.add("2011");
+
+        BarData data = new BarData(labels, bardataset);
+        barChart.setData(data); // set the data and list of labels into chart
+        barChart.setDescription("Set Bar Chart Description Here");  // set the description
+        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
+        barChart.animateY(5000);
     }
 }
