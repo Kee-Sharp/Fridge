@@ -59,41 +59,38 @@ public class FinanceTrackerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_view_finance);
-//
-//        //TODO: update with real values
-//        //populating priceCategory hashmap
-//        priceCategories.put("BF", 1.0f); // Baby Food
-//        priceCategories.put("BGB", 1.0f); // Baked Goods - Bakery
-//        priceCategories.put("BGBC", 1.0f); // Baked Goods - Baking and Cooking
-//        priceCategories.put("BGRD", 1.0f); // Baked Goods - Refrigerated Dough
-//        priceCategories.put("B", 1.0f); // Beverages
-//        priceCategories.put("C", 1.0f); // Condiments, Sauces & Canned Goods
-//        priceCategories.put("D", 1.0f); // Dairy Products & Eggs
-//        priceCategories.put("F", 1.0f); // Food Purchased Frozen
-//        priceCategories.put("G", 1.0f); // Grains, Beans & Pasta
-//        priceCategories.put("MF", 1.0f); // Meat - Fresh
-//        priceCategories.put("MSF", 1.0f); // Meat - Shelf Stable Foods
-//        priceCategories.put("MSP", 1.0f); // Meat - Smoked or Processed
-//        priceCategories.put("MSA", 1.0f); // Meat - Stuffed or Assembled
-//        priceCategories.put("PCP", 1.0f); // Poultry - Cooked or Processed
-//        priceCategories.put("PF", 1.0f); // Poultry - Fresh
-//        priceCategories.put("PSF", 1.0f); // Poultry - Shelf Stable Foods
-//        priceCategories.put("PSA", 1.0f); // Poultry - Stuffed or Assembled
-//        priceCategories.put("PFF", 1.0f); // Produce - Fresh Fruits
-//        priceCategories.put("PFV", 1.0f); // Produce - Fresh Vegetables
-//        priceCategories.put("SF", 1.0f); // Seafood - Fresh
-//        priceCategories.put("SS", 1.0f); // Seafood - Shelfish
-//        priceCategories.put("SSM", 1.0f); // Seafood - Smoked
-//        priceCategories.put("SSF", 1.0f); // Shelf Stable Foods
-//        priceCategories.put("VP", 1.0f); // Vegetarian Proteins
-//        priceCategories.put("DPF", 1.0f); // Deli & Prepared Foods
-//
+        //TODO: update with real values
+        //populating priceCategory hashmap
+        priceCategories.put("BF", 1.0f); // Baby Food
+        priceCategories.put("BGB", 1.0f); // Baked Goods - Bakery
+        priceCategories.put("BGBC", 1.0f); // Baked Goods - Baking and Cooking
+        priceCategories.put("BGRD", 1.0f); // Baked Goods - Refrigerated Dough
+        priceCategories.put("B", 1.0f); // Beverages
+        priceCategories.put("C", 1.0f); // Condiments, Sauces & Canned Goods
+        priceCategories.put("D", 1.0f); // Dairy Products & Eggs
+        priceCategories.put("F", 1.0f); // Food Purchased Frozen
+        priceCategories.put("G", 1.0f); // Grains, Beans & Pasta
+        priceCategories.put("MF", 1.0f); // Meat - Fresh
+        priceCategories.put("MSF", 1.0f); // Meat - Shelf Stable Foods
+        priceCategories.put("MSP", 1.0f); // Meat - Smoked or Processed
+        priceCategories.put("MSA", 1.0f); // Meat - Stuffed or Assembled
+        priceCategories.put("PCP", 1.0f); // Poultry - Cooked or Processed
+        priceCategories.put("PF", 1.0f); // Poultry - Fresh
+        priceCategories.put("PSF", 1.0f); // Poultry - Shelf Stable Foods
+        priceCategories.put("PSA", 1.0f); // Poultry - Stuffed or Assembled
+        priceCategories.put("PFF", 1.0f); // Produce - Fresh Fruits
+        priceCategories.put("PFV", 1.0f); // Produce - Fresh Vegetables
+        priceCategories.put("SF", 1.0f); // Seafood - Fresh
+        priceCategories.put("SS", 1.0f); // Seafood - Shelfish
+        priceCategories.put("SSM", 1.0f); // Seafood - Smoked
+        priceCategories.put("SSF", 1.0f); // Shelf Stable Foods
+        priceCategories.put("VP", 1.0f); // Vegetarian Proteins
+        priceCategories.put("DPF", 1.0f); // Deli & Prepared Foods
+
 //        //dummy data for months Jan and Feb in '21
 //        monthTotals.add(91.31f); // Jan '21
 //        monthTotals.add(73.68f); // Feb '21
-//
+
 //        //to iterate through wasted hashmap
 ////        Iterator it = wastedItems.entrySet().iterator();
 ////        while (it.hasNext()) {
@@ -112,49 +109,47 @@ public class FinanceTrackerActivity extends AppCompatActivity {
 ////        entries.add(new BarEntry(monthTotals.get(0), 0));
 ////        entries.add(new BarEntry(monthTotals.get(1), 1));
 ////        entries.add(new BarEntry(monthTotals.get(2), 2));
-//        //reference of way that should work in case above doesn't
-//        entries.add(new BarEntry(8f, 0));
-//        entries.add(new BarEntry(2f, 1));
-//        entries.add(new BarEntry(5f, 2));
-//
-//        BarDataSet bardataset = new BarDataSet(entries, "Cells");
-//
-//        ArrayList<String> labels = new ArrayList<String>();
-//        labels.add("Jan '21");
-//        labels.add("Feb '21");
-//        labels.add("March '21");
-//
-//        BarData data = new BarData(labels, bardataset);
-//        barChart.setData(data); // set the data and list of labels into chart
-//        barChart.setDescription("Set Bar Chart Description Here");  // set the description
-//        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-//        barChart.animateY(5000);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_finance);
 
         BarChart barChart = (BarChart) findViewById(R.id.barchart);
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(8f, 0));
-        entries.add(new BarEntry(2f, 1));
-        entries.add(new BarEntry(5f, 2));
-        entries.add(new BarEntry(20f, 3));
-        entries.add(new BarEntry(15f, 4));
-        entries.add(new BarEntry(19f, 5));
+        //dummy data to show if the user had been using the app
+        entries.add(new BarEntry(93.19f, 0)); //Jan
+        entries.add(new BarEntry(22.86f, 1)); //Feb
+        entries.add(new BarEntry(21.06f, 2)); //March
+        entries.add(new BarEntry(0f, 3)); //April
+        entries.add(new BarEntry(0f, 4)); //May
+        entries.add(new BarEntry(0f, 5)); //June
+        entries.add(new BarEntry(0f, 6)); //July
+        entries.add(new BarEntry(0f, 7)); //August
+        entries.add(new BarEntry(0f, 8)); //September
+        entries.add(new BarEntry(0f, 9)); //October
+        entries.add(new BarEntry(0f, 10)); //November
+        entries.add(new BarEntry(0f, 11)); //December
 
-        BarDataSet bardataset = new BarDataSet(entries, "Cells");
+
+        BarDataSet bardataset = new BarDataSet(entries, "Months");
 
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("2016");
-        labels.add("2015");
-        labels.add("2014");
-        labels.add("2013");
-        labels.add("2012");
-        labels.add("2011");
+        labels.add("Jan '21");
+        labels.add("Feb '21");
+        labels.add("March '21");
+        labels.add("April '21");
+        labels.add("May '21");
+        labels.add("June '21");
+        labels.add("July '21");
+        labels.add("Aug '21");
+        labels.add("Sep '21");
+        labels.add("Oct '21");
+        labels.add("Nov '21");
+        labels.add("Dec '21");
 
         BarData data = new BarData(labels, bardataset);
         barChart.setData(data); // set the data and list of labels into chart
-        barChart.setDescription("Set Bar Chart Description Here");  // set the description
+        barChart.setDescription("Your Financial Tracker for 2021");  // set the description
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         barChart.animateY(5000);
     }
