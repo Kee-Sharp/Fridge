@@ -148,6 +148,7 @@ public class FinanceTrackerActivity extends AppCompatActivity {
         labels.add("Dec '21");
 
         BarData data = new BarData(labels, bardataset);
+        data.setValueTextSize(10);
         barChart.setData(data); // set the data and list of labels into chart
         barChart.setDescription("Your Financial Tracker for 2021");  // set the description
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
