@@ -2,14 +2,17 @@ package com.team300.fridge;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
+import android.widget.Button;
 import java.security.InvalidParameterException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class User implements Parcelable {
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+
+public class User extends AppCompatActivity implements Parcelable {
 
     private String name;
     private String email;
@@ -94,5 +97,7 @@ public class User implements Parcelable {
     public boolean removeDate(DayOfWeek dow) {
         return notificationDates.remove(dow);
     }
+
+
 
 }

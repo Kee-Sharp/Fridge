@@ -86,27 +86,35 @@
             android:onClick="onCheckboxClicked"
             android:text="Thu" />
     </android.support.v7.widget.LinearLayoutCompat>
+
     <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/firstFour"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <CheckBox android:id="@+id/friday"
+        app:layout_constraintTop_toBottomOf="@id/firstFour">
+
+        <CheckBox
+            android:id="@+id/friday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fri"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/saturday"
+            android:onClick="onCheckboxClicked"
+            android:text="Fri" />
+
+        <CheckBox
+            android:id="@+id/saturday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sat"
-            android:onClick="onCheckboxClicked"/>
-        <CheckBox android:id="@+id/sunday"
+            android:onClick="onCheckboxClicked"
+            android:text="Sat" />
+
+        <CheckBox
+            android:id="@+id/sunday"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sun"
-            android:onClick="onCheckboxClicked"/>
+            android:onClick="onCheckboxClicked"
+            android:text="Sun" />
     </android.support.v7.widget.LinearLayoutCompat>
 
     <Button
@@ -118,4 +126,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="92dp"
         android:text="Demo Notification"/>
+
+    <Button
+        android:id="@+id/financeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="168dp"
+        android:text="Finance Tracker"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

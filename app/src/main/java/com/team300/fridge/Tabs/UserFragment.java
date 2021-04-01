@@ -1,5 +1,6 @@
 package com.team300.fridge.Tabs;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -22,17 +23,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.team300.fridge.AddFoodItemActivity;
+import com.team300.fridge.AddGroceryListActivity;
+import com.team300.fridge.FinanceTrackerActivity;
+import com.team300.fridge.FoodItem;
 import com.team300.fridge.FoodItemDialog;
 import com.team300.fridge.MainActivity;
+import com.team300.fridge.Model;
 import com.team300.fridge.NotificationUtils;
 import com.team300.fridge.OpenSettingsDialogFragment;
 import com.team300.fridge.R;
 import com.team300.fridge.User;
+import com.team300.fridge.FinanceTrackerActivity;
+import android.support.v7.app.AppCompatActivity;
+
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -45,6 +54,8 @@ public class UserFragment extends Fragment {
     private User mUser;
     private NotificationUtils mNotificationUtils;
     CheckBox[] checkBoxes;
+    private static final int VIEW_FINANCE = 1;
+
 
     public UserFragment() {
         // Required empty public constructor
@@ -68,6 +79,8 @@ public class UserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        View view = getView();
+
         if (getArguments() != null) {
             mUser = getArguments().getParcelable(USER_ARG);
         }
@@ -77,6 +90,7 @@ public class UserFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_user, container, false);
     }
@@ -134,7 +148,19 @@ public class UserFragment extends Fragment {
                 dialog.show(getActivity().getSupportFragmentManager(), "Open Settings Dialog");
             }
         });
+
+        Button finance = view.findViewById(R.id.financeButton);
+
+        finance.setOnClickListener(this::onClick);
     }
+
+
+//    Button finance = view.findViewById(R.id.financeButton);
+//        finance.setOnClickListener((v) -> {
+//        Intent intent = new Intent(getActivity(), FinanceTrackerActivity.class);
+//        startActivity(intent);
+//    });
+
 
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
@@ -187,4 +213,7 @@ public class UserFragment extends Fragment {
         }, 5000);
     }
 
+    private void onClick(View v) {
+        startActivity(new Intent(getActivity(), FinanceTrackerActivity.class));
+    }
 }
