@@ -15,6 +15,10 @@ import android.widget.EditText;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.team300.fridge.POJOs.GroceryList;
+import com.team300.fridge.POJOs.Model;
+import com.team300.fridge.POJOs.User;
+
 import java.text.DateFormat;
 import java.util.List;
 
@@ -129,7 +133,10 @@ public class GroceryListAdapter
             @Override
             public void onClick(DialogInterface dialog, int i){
                 userInput = input.getText().toString();
-                mGroceryLists.get(listID).setName(userInput);
+                User user = Model.getInstance().getCurrentUser();
+                List<GroceryList> groceryLists = user.getGroceryLists();
+                groceryLists.get(listID).setName(userInput);
+                mGroceryLists = groceryLists;
                 notifyItemChanged(listID);
                 dialog.dismiss();
 

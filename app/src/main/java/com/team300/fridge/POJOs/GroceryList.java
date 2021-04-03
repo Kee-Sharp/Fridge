@@ -1,15 +1,14 @@
-package com.team300.fridge;
+package com.team300.fridge.POJOs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.security.InvalidParameterException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GroceryList implements Parcelable {
+public class GroceryList implements Parcelable, Cloneable<GroceryList> {
     private String name;
     private Date createdOn;
     private List<FoodItem> items;
@@ -25,7 +24,7 @@ public class GroceryList implements Parcelable {
             this.items = items;
         }
     }
-    //create FoodItem from parcel information
+    //create GroceryList from parcel information
     private GroceryList(Parcel in){
         this.name = in.readString();
         this.createdOn = (java.util.Date)in.readSerializable();
@@ -95,5 +94,16 @@ public class GroceryList implements Parcelable {
                 ", createdOn=" + createdOn +
                 ", items=" + items +
                 '}';
+    }
+
+    @Override
+    public GroceryList clone() {
+        List<FoodItem> newItems = new ArrayList<>();
+        for (FoodItem item: items) {
+            newItems.add(item.clone());
+        }
+        GroceryList ret = new GroceryList(name, newItems);
+        ret.setCreatedOn(createdOn);
+        return ret;
     }
 }

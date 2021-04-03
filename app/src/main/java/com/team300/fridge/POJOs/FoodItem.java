@@ -1,4 +1,4 @@
-package com.team300.fridge;
+package com.team300.fridge.POJOs;
 
 
 import android.os.Parcel;
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class FoodItem implements Parcelable {
+public class FoodItem implements Parcelable, Cloneable<FoodItem> {
     private String name;
     private int productId; //based on FoodKeeper Data
     private int quantity; //unit quantity of item
@@ -128,6 +128,11 @@ public class FoodItem implements Parcelable {
             newList.add(newItem);
         }
         return newList;
+    }
+
+    @Override
+    public FoodItem clone() {
+        return new FoodItem(name, productId, quantity, purchaseDate);
     }
 }
 

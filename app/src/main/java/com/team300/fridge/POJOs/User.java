@@ -1,22 +1,21 @@
-package com.team300.fridge;
+package com.team300.fridge.POJOs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.Button;
+
 import java.security.InvalidParameterException;
 import java.time.DayOfWeek;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
-public class User extends AppCompatActivity implements Parcelable {
+public class User implements Parcelable {
 
     private String name;
     private String email;
     private List<DayOfWeek> notificationDates;
+    private List<FoodItem> foodItems;
+    private List<GroceryList> groceryLists;
 
     public User(String name, String email) {
         if (name == null) {
@@ -30,6 +29,12 @@ public class User extends AppCompatActivity implements Parcelable {
         }
     }
 
+    public User(String name, String email, List<FoodItem> foodItems, List<GroceryList> groceryLists) {
+        this(name, email);
+        this.foodItems = foodItems;
+        this.groceryLists = groceryLists;
+    }
+
     //create User from Parcel information
     private User(Parcel in) {
         name = in.readString();
@@ -39,6 +44,10 @@ public class User extends AppCompatActivity implements Parcelable {
         for (String date : dates) {
             notificationDates.add(DayOfWeek.valueOf(date));
         }
+        foodItems = new ArrayList<>();
+        in.readTypedList(foodItems, FoodItem.CREATOR);
+        groceryLists = new ArrayList<>();
+        in.readTypedList(groceryLists, GroceryList.CREATOR);
 
     }
 
@@ -51,6 +60,8 @@ public class User extends AppCompatActivity implements Parcelable {
             dates.add(day.toString());
         }
         dest.writeArray(dates.toArray());
+        dest.writeTypedList(foodItems);
+        dest.writeTypedList(groceryLists);
     }
 
     //need creator field for new items
@@ -94,10 +105,54 @@ public class User extends AppCompatActivity implements Parcelable {
         }
     }
 
+    public List<FoodItem> getFoodItems() {
+        return foodItems;
+    }
+
+    public void setFoodItems(List<FoodItem> foodItems) {
+        this.foodItems = foodItems;
+    }
+
+    /**
+     * add a food item to the app.  checks if the food item is already entered
+     *
+     * uses O(n) linear search for food item
+     *
+     * @param foodItem  the food item to be added
+     * @return true if added, false if a duplicate
+     */
+    public boolean addFoodItem(FoodItem foodItem) {
+        for (FoodItem f : foodItems ) {
+            if (f.equals(foodItem)) return false;
+        }
+        foodItems.add(foodItem);
+        return true;
+    }
+
+    public List<GroceryList> getGroceryLists() {
+        return groceryLists;
+    }
+
+    public void setGroceryLists(List<GroceryList> groceryLists) {
+        this.groceryLists = groceryLists;
+    }
+
+    public void addGroceryList(GroceryList newGroceryList) {
+        groceryLists.add(newGroceryList);
+    }
+
     public boolean removeDate(DayOfWeek dow) {
         return notificationDates.remove(dow);
     }
 
-
-
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", notificationDates=" + notificationDates +
+                ", foodItems=" + foodItems +
+                ", groceryLists=" + groceryLists +
+                '}';
+    }
 }

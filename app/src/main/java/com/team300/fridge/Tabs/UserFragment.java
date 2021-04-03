@@ -1,19 +1,15 @@
 package com.team300.fridge.Tabs;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,24 +18,15 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.team300.fridge.AddFoodItemActivity;
-import com.team300.fridge.AddGroceryListActivity;
 import com.team300.fridge.FinanceTrackerActivity;
-import com.team300.fridge.FoodItem;
-import com.team300.fridge.FoodItemDialog;
-import com.team300.fridge.MainActivity;
-import com.team300.fridge.Model;
 import com.team300.fridge.NotificationUtils;
 import com.team300.fridge.OpenSettingsDialogFragment;
 import com.team300.fridge.R;
-import com.team300.fridge.User;
-import com.team300.fridge.FinanceTrackerActivity;
-import android.support.v7.app.AppCompatActivity;
+import com.team300.fridge.POJOs.User;
 
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 
 
@@ -115,6 +102,7 @@ public class UserFragment extends Fragment {
         checkBoxes[5] = view.findViewById(R.id.saturday);
         checkBoxes[6] = view.findViewById(R.id.sunday);
 
+        //pre-select the dates according to the user's settings
         DayOfWeek[] allDates = {DayOfWeek.MONDAY, DayOfWeek.TUESDAY, DayOfWeek.WEDNESDAY, DayOfWeek.THURSDAY, DayOfWeek.FRIDAY, DayOfWeek.SATURDAY, DayOfWeek.SUNDAY};
         List<DayOfWeek> notificationDates = mUser.getNotificationDates();
         for (int i = 0; i < 7; i++) {

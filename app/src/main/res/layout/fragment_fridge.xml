@@ -10,11 +10,21 @@
         android:id="@+id/button_first"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="20dp"
         android:layout_marginRight="36dp"
         android:text="@string/add_item"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/button_switch_user"
         app:layout_constraintRight_toRightOf="parent" />
+
+    <Button
+        android:id="@+id/button_switch_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch User"
+        android:layout_marginBottom="60dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 
     <TextView
@@ -40,13 +50,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="55dp"
-        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:scrollbars="vertical"
         app:layoutManager="LinearLayoutManager"
         tools:context="com.team300.fridge.MainActivity"
-        tools:listitem="@layout/text_row_item"
-        tools:visibility="visible" />
+        tools:listitem="@layout/text_row_item" />
 
 </android.support.constraint.ConstraintLayout>
