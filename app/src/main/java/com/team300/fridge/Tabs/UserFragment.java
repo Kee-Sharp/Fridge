@@ -41,6 +41,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 
 /**
@@ -130,8 +131,10 @@ public class UserFragment extends Fragment {
             //for demonstration purposes, we have to trigger a notification
             //set up a notification for 5 seconds later if today is one of the notification dates
             NotificationChannel myNotificationChannel = mNotificationUtils.getManager().getNotificationChannel(NotificationUtils.ANDROID_CHANNEL_ID);
+            //check if the user has enabled heads-up notifications
             if (myNotificationChannel.getImportance() == NotificationManager.IMPORTANCE_HIGH) {
                 LocalDate today = LocalDate.now();
+                //check if today is marked as a notification day
                 if (notificationDates.contains(today.getDayOfWeek())) {
                     Context context = demoNotification.getContext();
                     createNotification(context);
@@ -199,10 +202,29 @@ public class UserFragment extends Fragment {
     }
 
     //DEMO-NOTIF
-    //create notification for non-demo will need to take in values from notificationDates as well
     //notif icon drawable for custom icon if we want
     private void createNotification(Context context){
-        String notifMsg = "It's time to check your fridge before your food goes bad!";
+        String notifMsg = "";
+        /* NOTIFICATION SHELL FOR INTEGRATION WITH DATABASE---------------
+        //int expireItems = 0;
+        // expireItems = TODO: add call to retrieve # of items expiring in the fridge within 3 days
+        // String expireItemsNames = TODO: get the names of the items
+       if(expireItems == 0){
+            notifMsg = "You have no items expiring soon, nice!";
+        } else {
+            notifMsg = "You have " + expireItems + " items expiring soon. "; //+ "These items are: " + expireItemsNames;
+        }
+        */
+        //DUMMY NOTIFICATION---------------
+        Random rand = new Random();
+        int msgNum = rand.nextInt(3);
+        if(msgNum == 0){
+            notifMsg = "You have no items expiring soon, nice!";
+        } else if (msgNum == 1) {
+            notifMsg = "You have 3 items expiring soon: Apple, Broccoli, Bread";
+        } else {
+            notifMsg = "You have 1 item expiring soon: Milk";
+        }
         //Notification object creation
         Notification.Builder builder = mNotificationUtils.getAndroidChannelNotification("What's in your Fridge?", notifMsg);
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
