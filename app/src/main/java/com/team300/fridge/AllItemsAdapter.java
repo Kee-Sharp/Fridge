@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.team300.fridge.POJOs.FoodItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +97,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
     }
 
     public void filter(String text) {
+        //filter items using "text" as the search query
         mAllItems.clear();
         if(text.isEmpty()){
             mAllItems.addAll(mAllItemsCopy);

@@ -6,16 +6,19 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.team300.fridge.AddFoodItemActivity;
-import com.team300.fridge.FoodItem;
+import com.team300.fridge.MainActivity;
+import com.team300.fridge.POJOs.FoodItem;
 import com.team300.fridge.FridgeListAdapter;
-import com.team300.fridge.Model;
+import com.team300.fridge.POJOs.Model;
 import com.team300.fridge.R;
+import com.team300.fridge.POJOs.User;
 
 import java.util.Date;
 import java.util.List;
@@ -61,7 +64,7 @@ public class FridgeFragment extends Fragment {
 
         RecyclerView recyclerView = view.findViewById(R.id.items);
         Model model = Model.getInstance();
-        List<FoodItem> items = model.getFoodItems();
+        List<FoodItem> items = model.getCurrentUser().getFoodItems();
         //We use our own custom adapter to convert a list of food items into a viewable state
         mAdapter = new FridgeListAdapter(items);
         recyclerView.setAdapter(mAdapter);
@@ -71,6 +74,15 @@ public class FridgeFragment extends Fragment {
         addButton.setOnClickListener((v)->{
             Intent intent = new Intent(getActivity(), AddFoodItemActivity.class);
             startActivityForResult(intent, ADD_FOOD_ITEM_REQUEST);
+        });
+
+        //only for demonstrating different users while login/registration arent implemented
+        Button switchUserButton = view.findViewById(R.id.button_switch_user);
+        switchUserButton.setOnClickListener((v)->{
+            //switch user out and refresh main activity
+            model.switchUser();
+            MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.switchOutUser();
         });
 
     }
@@ -88,10 +100,10 @@ public class FridgeFragment extends Fragment {
                     int quantity = bundle.getInt("quantity");
                     Date date = (Date) bundle.getSerializable("date");
                     FoodItem newItem = new FoodItem(name, productId, quantity, date);
-                    Model model = Model.getInstance();
-                    List<FoodItem> items = model.getFoodItems();
+                    User currentUser = Model.getInstance().getCurrentUser();
+                    List<FoodItem> items = currentUser.getFoodItems();
                     List<FoodItem> newList = FoodItem.addFoodItemToList(items, newItem);
-                    model.setFoodItems(newList);
+                    currentUser.setFoodItems(newList);
                     mAdapter.setFoodItems(newList);
                     mAdapter.notifyDataSetChanged();
                 }

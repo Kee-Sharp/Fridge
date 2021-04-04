@@ -18,6 +18,7 @@ public class OpenSettingsDialogFragment extends DialogFragment {
                 .setTitle("Notifications")
                 .setPositiveButton("Change", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        //takes users to the settings page that controls notification behavior
                         Intent intent = new Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS);
                         intent.putExtra(Settings.EXTRA_APP_PACKAGE, getActivity().getPackageName());
                         intent.putExtra(Settings.EXTRA_CHANNEL_ID, channelId);

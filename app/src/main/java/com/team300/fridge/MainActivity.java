@@ -1,30 +1,21 @@
 package com.team300.fridge;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 
+import com.team300.fridge.POJOs.Model;
 import com.team300.fridge.Tabs.FridgeFragment;
 import com.team300.fridge.Tabs.UserFragment;
 import com.team300.fridge.Tabs.ViewGroceryListsFragment;
-
-import java.time.DayOfWeek;
-import java.util.Date;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -102,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
                     return FridgeFragment.newInstance();
                 default:
                     //should be replaced with database call to the current user
-                    return UserFragment.newInstance(new User("Spencer Kee", "skee8@gatech.edu"));
+                    Model model = Model.getInstance();
+                    return UserFragment.newInstance(model.getCurrentUser());
             }
         }
 
@@ -114,7 +106,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void switchOutUser() {
+        //essentially refreshes the app to register the new user's information
+        finish();
+        startActivity(getIntent());
+    }
+
     public void onCheckboxClicked(View view) {
+        //pass of the on click of the checkbox to the fragment
         UserFragment fragment = (UserFragment) mPagerAdapter.getRegisteredFragment(2);
         fragment.onCheckboxClicked(view);
     }

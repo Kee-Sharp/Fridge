@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.team300.fridge.POJOs.FoodItem;
+import com.team300.fridge.POJOs.Model;
+import com.team300.fridge.POJOs.User;
+
 import java.util.List;
 
 /**
@@ -73,7 +77,7 @@ public class FridgeListAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final Model model = Model.getInstance();
+        final User user = Model.getInstance().getCurrentUser();
         /*
         This is where we have to bind each data element in the list (given by position parameter)
         to an element in the view (which is one of our two TextView widgets
@@ -109,13 +113,13 @@ public class FridgeListAdapter
                             case R.id.delete:
                                 //indicate app will delete one
                                 List<FoodItem> newList1 = delete(holder.getAdapterPosition(), v);
-                                model.setFoodItems(newList1);
+                                user.setFoodItems(newList1);
                                 return true;
                             case R.id.delete_all:
 //                                Snackbar.make(v, "Delete all " + holder.mFoodItem.getName() + " selected", Snackbar.LENGTH_LONG)
 //                                        .setAction("Action", null).show();
                                 List<FoodItem> newList2 = deleteAll(holder.getAdapterPosition(), v);
-                                model.setFoodItems(newList2);
+                                user.setFoodItems(newList2);
                                 return true;
                             default:
                                 return false;

@@ -13,10 +13,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.team300.fridge.AddGroceryListActivity;
-import com.team300.fridge.FoodItem;
-import com.team300.fridge.GroceryList;
+import com.team300.fridge.POJOs.FoodItem;
+import com.team300.fridge.POJOs.GroceryList;
 import com.team300.fridge.GroceryListAdapter;
-import com.team300.fridge.Model;
+import com.team300.fridge.POJOs.Model;
+import com.team300.fridge.POJOs.User;
 import com.team300.fridge.R;
 
 import java.util.List;
@@ -60,14 +61,13 @@ public class ViewGroceryListsFragment extends Fragment {
         assert view != null;
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        Model model = Model.getInstance();
-        List<FoodItem> items = model.getFoodItems();
-        List<GroceryList> groceryLists = model.getGroceryLists();
+        User user = Model.getInstance().getCurrentUser();
+        List<GroceryList> groceryLists = user.getGroceryLists();
         mAdapter = new GroceryListAdapter(groceryLists);
         recyclerView.setAdapter(mAdapter);
 
         TextView noGroceryLists = view.findViewById(R.id.no_grocery_lists);
-        if (items.size() == 0) {
+        if (groceryLists.size() == 0) {
             //Replace recyclerView with text saying no items
             noGroceryLists.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
@@ -89,9 +89,9 @@ public class ViewGroceryListsFragment extends Fragment {
                 Bundle bundle = data.getExtras();
                 if (bundle != null) {
                     GroceryList newGroceryList = bundle.getParcelable("new_list");
-                    Model model = Model.getInstance();
-                    model.addGroceryList(newGroceryList);
-                    mAdapter.setItems(model.getGroceryLists());
+                    User user = Model.getInstance().getCurrentUser();
+                    user.addGroceryList(newGroceryList);
+                    mAdapter.setItems(user.getGroceryLists());
                 }
             }
         }

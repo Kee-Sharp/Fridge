@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.team300.fridge.POJOs.FoodItem;
+import com.team300.fridge.POJOs.GroceryList;
+import com.team300.fridge.POJOs.Model;
+
 import java.util.List;
 
 public class AddGroceryListActivity extends AppCompatActivity {
@@ -25,7 +29,8 @@ public class AddGroceryListActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         Model model = Model.getInstance();
         List<FoodItem> items = model.getAllFoodItems();
-        GroceryListFoodAdapter mAdapter = new GroceryListFoodAdapter(items);
+        List<FoodItem> currentUserItems = model.getCurrentUser().getFoodItems();
+        GroceryListFoodAdapter mAdapter = new GroceryListFoodAdapter(items, currentUserItems);
         recyclerView.setAdapter(mAdapter);
 
         Button cancelButton = findViewById(R.id.cancelButton);

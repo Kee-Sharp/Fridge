@@ -5,13 +5,14 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
+import com.team300.fridge.POJOs.FoodItem;
+import com.team300.fridge.POJOs.Model;
+
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -83,7 +84,6 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
         int day = Integer.parseInt(separated[1]);
         int year = Integer.parseInt(separated[2]);
         Date date = Model.toDate(LocalDate.of(year, month, day));
-        Log.d("date", date.toString());
         Intent result = new Intent(AddFoodItemActivity.this, MainActivity.class);
         result.putExtra("name", name);
         result.putExtra("quantity", Integer.parseInt(quantity));
