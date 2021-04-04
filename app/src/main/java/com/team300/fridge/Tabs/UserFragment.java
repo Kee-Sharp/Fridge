@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.team300.fridge.FinanceTrackerActivity;
+import com.team300.fridge.AboutActivity;
 import com.team300.fridge.NotificationUtils;
 import com.team300.fridge.OpenSettingsDialogFragment;
 import com.team300.fridge.R;
@@ -41,8 +42,6 @@ public class UserFragment extends Fragment {
     private User mUser;
     private NotificationUtils mNotificationUtils;
     CheckBox[] checkBoxes;
-    private static final int VIEW_FINANCE = 1;
-
 
     public UserFragment() {
         // Required empty public constructor
@@ -137,17 +136,14 @@ public class UserFragment extends Fragment {
             }
         });
 
+        //show finance tracker activity
         Button finance = view.findViewById(R.id.financeButton);
-
         finance.setOnClickListener(this::onClick);
+
+        //show about the app activity
+        Button about = view.findViewById(R.id.about);
+        about.setOnClickListener(this::onClickTwo);
     }
-
-
-//    Button finance = view.findViewById(R.id.financeButton);
-//        finance.setOnClickListener((v) -> {
-//        Intent intent = new Intent(getActivity(), FinanceTrackerActivity.class);
-//        startActivity(intent);
-//    });
 
 
     public void onCheckboxClicked(View view) {
@@ -203,5 +199,9 @@ public class UserFragment extends Fragment {
 
     private void onClick(View v) {
         startActivity(new Intent(getActivity(), FinanceTrackerActivity.class));
+    }
+
+    private void onClickTwo(View v) {
+        startActivity(new Intent(getActivity(), AboutActivity.class));
     }
 }

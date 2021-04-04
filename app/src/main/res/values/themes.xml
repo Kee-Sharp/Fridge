@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Fridge" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/lgreen</item>
+        <item name="colorPrimary">@color/dgreen</item>
         <item name="colorPrimaryDark">@color/dgreen</item>
         <item name="colorAccent">@color/yellow</item>
         <!-- Customize your theme here. -->
