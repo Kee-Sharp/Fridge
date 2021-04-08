@@ -87,6 +87,7 @@ public class FinanceTrackerActivity extends AppCompatActivity {
         priceCategories.put("VP", 1.0f); // Vegetarian Proteins
         priceCategories.put("DPF", 1.0f); // Deli & Prepared Foods
 
+        //this is the start of logic for a real implementation of this activity
 //        //dummy data for months Jan and Feb in '21
 //        monthTotals.add(91.31f); // Jan '21
 //        monthTotals.add(73.68f); // Feb '21

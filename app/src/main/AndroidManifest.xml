@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -11,6 +12,7 @@
         android:theme="@style/Theme.Fridge">
         <activity android:name=".AddGroceryListActivity"></activity>
         <activity android:name=".FinanceTrackerActivity"></activity>
+        <activity android:name=".AboutActivity"></activity>
         <activity android:name=".AddFoodItemActivity" />
         <activity
             android:name=".MainActivity"
