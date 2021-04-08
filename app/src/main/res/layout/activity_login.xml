@@ -30,7 +30,7 @@
             android:letterSpacing="0.03"
             android:text="ridge"
             android:textColor="@color/brown"
-            android:textSize="70dp" />
+            android:textSize="70sp" />
     </LinearLayout>
 
     <EditText
