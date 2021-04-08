@@ -80,7 +80,7 @@ public class FridgeFragment extends Fragment {
         Button switchUserButton = view.findViewById(R.id.button_switch_user);
         switchUserButton.setOnClickListener((v)->{
             //switch user out and refresh main activity
-            model.switchUser();
+//            model.switchUser();
             MainActivity mainActivity = (MainActivity) getActivity();
             mainActivity.switchOutUser();
         });

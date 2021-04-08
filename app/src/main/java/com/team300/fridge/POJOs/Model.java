@@ -34,7 +34,7 @@ public class Model {
     private List<User> _users;
 
     /** points to the current User **/
-    private int currentUserIndex;
+    private User currentUser;
 
     private final Random r = new Random(1);
 
@@ -45,7 +45,7 @@ public class Model {
     private Model() {
         _allFoodItems = new ArrayList<>();
         _users = new ArrayList<>();
-        currentUserIndex = 0;
+        currentUser = null;
         //comment this out after full app developed
         loadDummyData();
 
@@ -114,12 +114,15 @@ public class Model {
             groceryListLists[i] = generateSubset(allGroceryLists);
         }
 
-        _users.add(new User("Abigail Gutierrez-Ray", "aagray@gatech.edu", foodItemLists[0], groceryListLists[0]));
-        _users.add(new User("Deepti Vaidyanathan", "deeptivaidyanathan@gatech.edu", foodItemLists[1], groceryListLists[1]));
-        _users.add(new User("Miranda Bisson", "mbisson3@gatech.edu", foodItemLists[2], groceryListLists[2]));
-        _users.add(new User("Spencer Kee", "skee8@gatech.edu", foodItemLists[3], groceryListLists[3]));
-        _users.add(new User("Tori Kraj", "victoria.kraj@gatech.edu", foodItemLists[4], groceryListLists[4]));
-        Log.d("aag food items", _users.get(0).getFoodItems().toString());
+        _users.add(new User("Abigail Gutierrez-Ray", "aagray@gatech.edu", "password1", foodItemLists[0], groceryListLists[0]));
+        _users.add(new User("Deepti Vaidyanathan", "deeptivaidyanathan@gatech.edu", "password2", foodItemLists[1], groceryListLists[1]));
+        _users.add(new User("Miranda Bisson", "mbisson3@gatech.edu", "password3", foodItemLists[2], groceryListLists[2]));
+        _users.add(new User("Spencer Kee", "skee8@gatech.edu", "password4", foodItemLists[3], groceryListLists[3]));
+        _users.add(new User("Tori Kraj", "victoria.kraj@gatech.edu", "password5", foodItemLists[4], groceryListLists[4]));
+        for (User u: _users) {
+            Log.d("user hash", u.getName() + " Hash: " + u.getPasshash());
+        }
+//        Log.d("aag food items", _users.get(0).getFoodItems().toString());
     }
 
 
@@ -131,11 +134,15 @@ public class Model {
 
 
     public User getCurrentUser() {
-        return _users.get(currentUserIndex);
+        return currentUser;
     }
 
-    public void switchUser() {
-        currentUserIndex = (currentUserIndex + 1) % _users.size();
+    public void switchUser(User user) {
+        currentUser = user;
+    }
+
+    public List<User> getUsers() {
+        return _users;
     }
 
     // method to convert LocalDate into java.util.Date

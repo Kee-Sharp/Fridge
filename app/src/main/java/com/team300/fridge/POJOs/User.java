@@ -13,11 +13,12 @@ public class User implements Parcelable {
 
     private String name;
     private String email;
+    private int passhash;
     private List<DayOfWeek> notificationDates;
     private List<FoodItem> foodItems;
     private List<GroceryList> groceryLists;
 
-    public User(String name, String email) {
+    public User(String name, String email, String password) {
         if (name == null) {
             throw new InvalidParameterException("Name must not be null");
         } else if (email == null || !email.matches("^.+@.+\\..+")) {
@@ -25,12 +26,13 @@ public class User implements Parcelable {
         } else {
             this.name = name;
             this.email = email;
+            this.passhash = hash(password);
             this.notificationDates = new ArrayList<>();
         }
     }
 
-    public User(String name, String email, List<FoodItem> foodItems, List<GroceryList> groceryLists) {
-        this(name, email);
+    public User(String name, String email, String password, List<FoodItem> foodItems, List<GroceryList> groceryLists) {
+        this(name, email, password);
         this.foodItems = foodItems;
         this.groceryLists = groceryLists;
     }
@@ -88,6 +90,19 @@ public class User implements Parcelable {
 
     public String getEmail() {
         return email;
+    }
+
+    public int getPasshash() {
+        return passhash;
+    }
+
+    public static int hash(String password) {
+        int[] primes = {17, 41, 13, 53, 29};
+        int result = 0;
+        for (int i = 0; i < password.length(); i++) {
+            result += password.charAt(i) * primes[i % primes.length];
+        }
+        return result;
     }
 
     public List<DayOfWeek> getNotificationDates() {
