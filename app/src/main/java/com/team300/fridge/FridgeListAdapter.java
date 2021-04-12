@@ -14,6 +14,7 @@ import com.team300.fridge.POJOs.FoodItem;
 import com.team300.fridge.POJOs.Model;
 import com.team300.fridge.POJOs.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,16 +111,24 @@ public class FridgeListAdapter
                     @Override
                     public boolean onMenuItemClick(MenuItem item){
                         switch(item.getItemId()){
-                            case R.id.delete:
+                            case R.id.eat:
                                 //indicate app will delete one
-                                List<FoodItem> newList1 = delete(holder.getAdapterPosition(), v);
+                                List<FoodItem> newList1 = delete(holder.getAdapterPosition(), v, false);
                                 user.setFoodItems(newList1);
                                 return true;
-                            case R.id.delete_all:
+                            case R.id.eat_all:
 //                                Snackbar.make(v, "Delete all " + holder.mFoodItem.getName() + " selected", Snackbar.LENGTH_LONG)
 //                                        .setAction("Action", null).show();
-                                List<FoodItem> newList2 = deleteAll(holder.getAdapterPosition(), v);
+                                List<FoodItem> newList2 = deleteAll(holder.getAdapterPosition(), v, false);
                                 user.setFoodItems(newList2);
+                                return true;
+                            case R.id.throw_one:
+                                List<FoodItem> newList3 = delete(holder.getAdapterPosition(), v, true);
+                                user.setFoodItems(newList3);
+                                return true;
+                            case R.id.throw_all:
+                                List<FoodItem> newList4 = deleteAll(holder.getAdapterPosition(), v, true);
+                                user.setFoodItems(newList4);
                                 return true;
                             default:
                                 return false;
@@ -130,8 +139,13 @@ public class FridgeListAdapter
         });
     }
         //delete 1 from the quantity from the clicked on item
-    public List<FoodItem> delete(int position, View v){
+    public List<FoodItem> delete(int position, View v, boolean thrown){
         FoodItem food = mFoodItems.get(position);
+        //TODO: uncomment and add proper call to get food cost
+//        if(thrown){
+//            float cost = food.getCost();
+//            updateBarChart(FinanceTrackerActivity.getCurrMonth(), cost);
+//        }
         int oldQuantity = food.getQuantity();
         int newQuantity = oldQuantity;
         if(oldQuantity > 0) {
@@ -150,14 +164,64 @@ public class FridgeListAdapter
         return mFoodItems;
     }
 
-    public List<FoodItem> deleteAll(int position, View v){
+    public List<FoodItem> deleteAll(int position, View v, boolean thrown){
         FoodItem food = mFoodItems.get(position);
+        //TODO: uncomment and add proper call to get food cost
+//        if(thrown){
+//            float cost = food.getCost() * food.getQuantity();
+//            updateBarChart(FinanceTrackerActivity.getCurrMonth(), cost);
+//        }
         //for good measure
         food.setQuantity(0);
         //remove from list bc there are none in fridge
         mFoodItems.remove(food);
         this.notifyItemRemoved(position);
         return mFoodItems;
+    }
+
+    //Update monthly total data & bar chart when you throw away something from your fridge
+    public void updateBarChart(String month, float newWaste){
+        float oldTotal = 0;
+        ArrayList<Float> monthTotals = FinanceTrackerActivity.getMonthTotals();
+        switch(month) {
+            case "Jan":
+                oldTotal = monthTotals.get(0);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Feb":
+                oldTotal = monthTotals.get(1);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Mar":
+                oldTotal = monthTotals.get(2);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Apr":
+                oldTotal = monthTotals.get(3);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "May":
+                oldTotal = monthTotals.get(4);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "June":
+                oldTotal = monthTotals.get(5);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "July":
+                oldTotal = monthTotals.get(6);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Aug":
+                oldTotal = monthTotals.get(7);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Sep":
+                oldTotal = monthTotals.get(8);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Oct":
+                oldTotal = monthTotals.get(9);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Nov":
+                oldTotal = monthTotals.get(10);
+                monthTotals.set(0, oldTotal + newWaste);
+            case "Dec":
+                oldTotal = monthTotals.get(2);
+                monthTotals.set(0, oldTotal + newWaste);
+        }
+        FinanceTrackerActivity.setMonthTotals(monthTotals);
     }
 
     @Override
