@@ -10,20 +10,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Fridge">
-        <activity android:name=".AddGroceryListActivity"></activity>
-        <activity android:name=".FinanceTrackerActivity"></activity>
-        <activity android:name=".AboutActivity"></activity>
-        <activity android:name=".AddFoodItemActivity" />
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Fridge.NoActionBar">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".AddGroceryListActivity" />
+        <activity android:name=".FinanceTrackerActivity" />
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".AddFoodItemActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Fridge.NoActionBar">
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

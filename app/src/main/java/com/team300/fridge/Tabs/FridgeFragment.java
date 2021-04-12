@@ -76,15 +76,6 @@ public class FridgeFragment extends Fragment {
             startActivityForResult(intent, ADD_FOOD_ITEM_REQUEST);
         });
 
-        //only for demonstrating different users while login/registration arent implemented
-        Button switchUserButton = view.findViewById(R.id.button_switch_user);
-        switchUserButton.setOnClickListener((v)->{
-            //switch user out and refresh main activity
-            model.switchUser();
-            MainActivity mainActivity = (MainActivity) getActivity();
-            mainActivity.switchOutUser();
-        });
-
     }
 
     // gets the data from the AddFoodItemActivity, converts it to a FoodItem and adds it to the list
