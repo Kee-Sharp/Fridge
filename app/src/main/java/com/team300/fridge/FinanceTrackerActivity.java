@@ -49,13 +49,15 @@ public class FinanceTrackerActivity extends AppCompatActivity {
         //  DPF: Deli & Prepared Foods
 
     //month totals 0 = Jan '21, 1 = Feb '21, etc.
-    ArrayList<Float> monthTotals = new ArrayList<Float>();
+    private static ArrayList<Float> monthTotals = new ArrayList<Float>();
 
     //uses same keys as categories; keeps track of number of items wasted in that category
     //for simple multiplication to make monthTotal to add to monthTotals ArrayList
     HashMap<String, Integer> wastedItems = new HashMap<String, Integer>();
 
     Float thisMonthTotal;
+
+    private static String currMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,6 +133,10 @@ public class FinanceTrackerActivity extends AppCompatActivity {
         entries.add(new BarEntry(0f, 10)); //November
         entries.add(new BarEntry(0f, 11)); //December
 
+        //add dummy values to monthTotals for updating
+        for(int i = 0; i < monthTotals.size(); i++){
+            monthTotals.set(i, entries.get(i).getVal());
+        }
 
         BarDataSet bardataset = new BarDataSet(entries, "Months");
 
@@ -154,5 +160,17 @@ public class FinanceTrackerActivity extends AppCompatActivity {
         barChart.setDescription("Your Financial Tracker for 2021");  // set the description
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         barChart.animateY(5000);
+    }
+
+    public static ArrayList<Float> getMonthTotals(){
+        return monthTotals;
+    }
+
+    public static void setMonthTotals(ArrayList<Float> newTotals){
+        monthTotals = newTotals;
+    }
+
+    public static String getCurrMonth(){
+        return currMonth;
     }
 }
