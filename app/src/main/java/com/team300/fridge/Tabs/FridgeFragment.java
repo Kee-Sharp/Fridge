@@ -6,19 +6,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.team300.fridge.AddFoodItemActivity;
-import com.team300.fridge.MainActivity;
-import com.team300.fridge.POJOs.FoodItem;
 import com.team300.fridge.FridgeListAdapter;
+import com.team300.fridge.POJOs.AppUser;
+import com.team300.fridge.POJOs.FoodItem;
 import com.team300.fridge.POJOs.Model;
+import com.team300.fridge.POJOs.Product;
 import com.team300.fridge.R;
-import com.team300.fridge.POJOs.User;
 
 import java.util.Date;
 import java.util.List;
@@ -87,11 +86,12 @@ public class FridgeFragment extends Fragment {
                 Bundle bundle = data.getExtras();
                 if (bundle != null) {
                     String name = bundle.getString("name");
-                    int productId = 100; //reverse lookup name to get actual product id later
+//                    int productId = 100; //reverse lookup name to get actual product id later
+                    Product productId = new Product("Coffee creamer", "liquid refrigerated", "Dairy Products & Eggs", "Coffee creamer,Coffee, creamer,liquid refrigerated", -1, 21, -1, 2.0);
                     int quantity = bundle.getInt("quantity");
                     Date date = (Date) bundle.getSerializable("date");
                     FoodItem newItem = new FoodItem(name, productId, quantity, date);
-                    User currentUser = Model.getInstance().getCurrentUser();
+                    AppUser currentUser = Model.getInstance().getCurrentUser();
                     List<FoodItem> items = currentUser.getFoodItems();
                     List<FoodItem> newList = FoodItem.addFoodItemToList(items, newItem);
                     currentUser.setFoodItems(newList);

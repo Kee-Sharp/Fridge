@@ -22,9 +22,8 @@ import com.team300.fridge.FinanceTrackerActivity;
 import com.team300.fridge.AboutActivity;
 import com.team300.fridge.NotificationUtils;
 import com.team300.fridge.OpenSettingsDialogFragment;
+import com.team300.fridge.POJOs.AppUser;
 import com.team300.fridge.R;
-import com.team300.fridge.POJOs.User;
-
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -40,7 +39,7 @@ import java.util.Random;
 public class UserFragment extends Fragment {
 
     private static final String USER_ARG = "user";
-    private User mUser;
+    private AppUser mUser;
     private NotificationUtils mNotificationUtils;
     CheckBox[] checkBoxes;
 
@@ -52,13 +51,13 @@ public class UserFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param user The user for this fragment.
+     * @param appUser The user for this fragment.
      * @return A new instance of fragment UserFragment.
      */
-    public static UserFragment newInstance(User user) {
+    public static UserFragment newInstance(AppUser appUser) {
         UserFragment fragment = new UserFragment();
         Bundle args = new Bundle();
-        args.putParcelable(USER_ARG, user);
+        args.putParcelable(USER_ARG, appUser);
         fragment.setArguments(args);
         return fragment;
     }

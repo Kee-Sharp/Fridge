@@ -2,15 +2,15 @@ package com.team300.fridge;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 
-import com.team300.fridge.POJOs.FoodItem;
 import com.team300.fridge.POJOs.Model;
+import com.team300.fridge.POJOs.Product;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -23,10 +23,11 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_food_item);
+        MainActivity.setContext(this);
         // set up views
         RecyclerView recyclerView = findViewById(R.id.items);
         Model model = Model.getInstance();
-        List<FoodItem> items = model.getAllFoodItems();
+        List<Product> items = model.get_products();
         AllItemsAdapter mAdapter = new AllItemsAdapter(items);
         recyclerView.setAdapter(mAdapter);
 

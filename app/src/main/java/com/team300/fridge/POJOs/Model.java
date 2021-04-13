@@ -1,7 +1,11 @@
 package com.team300.fridge.POJOs;
 
+import android.content.res.AssetManager;
 import android.util.Log;
 
+import com.team300.fridge.MainActivity;
+
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -9,6 +13,10 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 
 
 /**
@@ -31,10 +39,13 @@ public class Model {
     private List<FoodItem> _allFoodItems;
 
     /** holds all of the app's users **/
-    private List<User> _users;
+    private List<AppUser> _users;
 
     /** points to the current User **/
-    private User currentUser;
+    private AppUser currentUser;
+
+    /** holds the list of all products in FoodKeeper **/
+    private List<Product> _products;
 
     private final Random r = new Random(1);
 
@@ -46,6 +57,8 @@ public class Model {
         _allFoodItems = new ArrayList<>();
         _users = new ArrayList<>();
         currentUser = null;
+        _products = new ArrayList<>();
+
         //comment this out after full app developed
         loadDummyData();
 
@@ -58,6 +71,8 @@ public class Model {
     private void loadDummyData() {
         //create list of "all" food items, using this list of names
         Date today = new Date();
+        loadData();
+
         List<String> names = new ArrayList<>();
         names.add("Apple");
         names.add("Banana");
@@ -82,7 +97,7 @@ public class Model {
         Collections.sort(names);
         int id = 1;
         for (String n: names) {
-            _allFoodItems.add(new FoodItem(n, id++, 1, today));
+            _allFoodItems.add(new FoodItem(n, _products.get(id++), 1, today));
         }
         //create list of "all" grocery lists
         List<GroceryList> allGroceryLists = new ArrayList<>();
@@ -114,15 +129,52 @@ public class Model {
             groceryListLists[i] = generateSubset(allGroceryLists);
         }
 
-        _users.add(new User("Abigail Gutierrez-Ray", "aagray@gatech.edu", "password1", foodItemLists[0], groceryListLists[0]));
-        _users.add(new User("Deepti Vaidyanathan", "deeptivaidyanathan@gatech.edu", "password2", foodItemLists[1], groceryListLists[1]));
-        _users.add(new User("Miranda Bisson", "mbisson3@gatech.edu", "password3", foodItemLists[2], groceryListLists[2]));
-        _users.add(new User("Spencer Kee", "skee8@gatech.edu", "password4", foodItemLists[3], groceryListLists[3]));
-        _users.add(new User("Tori Kraj", "victoria.kraj@gatech.edu", "password5", foodItemLists[4], groceryListLists[4]));
-        for (User u: _users) {
+
+        _users.add(new AppUser("Abigail Gutierrez-Ray", "aagray@gatech.edu", "password1", foodItemLists[0], groceryListLists[0]));
+        _users.add(new AppUser("Deepti Vaidyanathan", "deeptivaidyanathan@gatech.edu", "password2", foodItemLists[1], groceryListLists[1]));
+        _users.add(new AppUser("Miranda Bisson", "mbisson3@gatech.edu", "password3", foodItemLists[2], groceryListLists[2]));
+        _users.add(new AppUser("Spencer Kee", "skee8@gatech.edu", "password4", foodItemLists[3], groceryListLists[3]));
+        _users.add(new AppUser("Tori Kraj", "victoria.kraj@gatech.edu", "password5", foodItemLists[4], groceryListLists[4]));
+        for (AppUser u: _users) {
             Log.d("user hash", u.getName() + " Hash: " + u.getPasshash());
         }
 //        Log.d("aag food items", _users.get(0).getFoodItems().toString());
+
+    }
+
+    public void loadData(){
+        RealmConfiguration config = new RealmConfiguration.Builder().name("Product.realm")
+                .allowQueriesOnUiThread(true)
+                .allowWritesOnUiThread(true)
+                .build();
+        Realm productRealm = Realm.getInstance(config);
+
+        productRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                try {
+                    AssetManager am = MainActivity.getAppContext().getAssets();
+                    InputStream is = am.open("Product.json");
+
+                    productRealm.createAllFromJson(Product.class, is);
+                    is.close();
+                } catch (Exception e) {
+                    Log.v("MODEL", "Was not able to add products from JSON to Realm");
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        RealmResults<Product> productRealmResults = productRealm.where(Product.class).findAll();
+        Product productFirst = productRealm.where(Product.class).findFirst();
+        if (productRealmResults == null){
+            Log.v("MODEL", "Product realm returned null after query");
+        } else {
+            Collections.addAll(_products, productRealmResults.toArray(new Product[productRealmResults.size()]));
+        }
+
+
+
     }
 
 
@@ -132,16 +184,20 @@ public class Model {
      */
     public List<FoodItem> getAllFoodItems() { return _allFoodItems; }
 
+    public List<Product> get_products() {
+        return _products;
+    }
 
-    public User getCurrentUser() {
+
+    public AppUser getCurrentUser() {
         return currentUser;
     }
 
-    public void switchUser(User user) {
+    public void switchUser(AppUser user) {
         currentUser = user;
     }
 
-    public List<User> getUsers() {
+    public List<AppUser> getUsers() {
         return _users;
     }
 
@@ -173,5 +229,15 @@ public class Model {
         }
         return ret;
     }
+
+//    public static <T extends RealmObject> RealmList<T> listToRealmList(List<T> list) {
+//        RealmList<T> realmList = new RealmList<T>();
+//        ListIterator<T> iterator = list.listIterator();
+//
+//        while(iterator.hasNext()) {
+//            realmList.add(iterator.next());
+//        }
+//        return realmList;
+//    }
 
 }

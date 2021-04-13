@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.team300.fridge.POJOs.FoodItem;
+import com.team300.fridge.POJOs.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +16,8 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
     /**
      * Collection of the items to be shown in this list.
      */
-    private List<FoodItem> mAllItems;
-    private List<FoodItem> mAllItemsCopy;
+    private List<Product> mAllItems;
+    private List<Product> mAllItemsCopy;
 
     /**
      * This inner class represents a ViewHolder which provides us a way to cache information
@@ -28,7 +28,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mNameView;
-        public FoodItem mFoodItem;
+        public Product mFoodItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -45,7 +45,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
      * set the items to be used by the adapter
      * @param items the list of items to be displayed in the recycler view
      */
-    public AllItemsAdapter(List<FoodItem> items) {
+    public AllItemsAdapter(List<Product> items) {
         mAllItems = items;
         mAllItemsCopy = new ArrayList<>();
         mAllItemsCopy.addAll(items);
@@ -71,13 +71,13 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
         to an element in the view (which is the TextView widget
          */
         //start by getting the element at the correct position
-        FoodItem item = mAllItems.get(position);
+        Product item = mAllItems.get(position);
         holder.mFoodItem = item;
         /*
           Now we bind the data to the widgets.  In this case, pretty simple, put the name in a
           textview
         */
-        holder.mNameView.setText(item.getName());
+        holder.mNameView.setText(item.getNameAndSub());
 
         /*
          * set up a listener to handle if the user clicks on this list item, what should happen?
@@ -103,7 +103,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
             mAllItems.addAll(mAllItemsCopy);
         } else{
             text = text.toLowerCase();
-            for(FoodItem item: mAllItemsCopy){
+            for(Product item: mAllItemsCopy){
                 if(item.getName().toLowerCase().contains(text)){
                     mAllItems.add(item);
                 }
@@ -112,7 +112,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-    public void openDialog(View v, FoodItem item) {
+    public void openDialog(View v, Product item) {
         FoodItemDialog dialog = new FoodItemDialog();
         Bundle args = new Bundle();
         args.putString("Food_Item_Name", item.getName());

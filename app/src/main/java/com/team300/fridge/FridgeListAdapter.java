@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.team300.fridge.POJOs.FoodItem;
 import com.team300.fridge.POJOs.Model;
-import com.team300.fridge.POJOs.User;
+import com.team300.fridge.POJOs.AppUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,7 +78,7 @@ public class FridgeListAdapter
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        final User user = Model.getInstance().getCurrentUser();
+        final AppUser user = Model.getInstance().getCurrentUser();
         /*
         This is where we have to bind each data element in the list (given by position parameter)
         to an element in the view (which is one of our two TextView widgets
@@ -165,6 +165,7 @@ public class FridgeListAdapter
     }
 
     public List<FoodItem> deleteAll(int position, View v, boolean thrown){
+
         FoodItem food = mFoodItems.get(position);
         //TODO: uncomment and add proper call to get food cost
 //        if(thrown){

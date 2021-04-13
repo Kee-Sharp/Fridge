@@ -13,11 +13,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.team300.fridge.AddGroceryListActivity;
-import com.team300.fridge.POJOs.FoodItem;
-import com.team300.fridge.POJOs.GroceryList;
 import com.team300.fridge.GroceryListAdapter;
+import com.team300.fridge.POJOs.AppUser;
+import com.team300.fridge.POJOs.GroceryList;
 import com.team300.fridge.POJOs.Model;
-import com.team300.fridge.POJOs.User;
 import com.team300.fridge.R;
 
 import java.util.List;
@@ -61,7 +60,7 @@ public class ViewGroceryListsFragment extends Fragment {
         assert view != null;
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        User user = Model.getInstance().getCurrentUser();
+        AppUser user = Model.getInstance().getCurrentUser();
         List<GroceryList> groceryLists = user.getGroceryLists();
         mAdapter = new GroceryListAdapter(groceryLists);
         recyclerView.setAdapter(mAdapter);
@@ -89,7 +88,7 @@ public class ViewGroceryListsFragment extends Fragment {
                 Bundle bundle = data.getExtras();
                 if (bundle != null) {
                     GroceryList newGroceryList = bundle.getParcelable("new_list");
-                    User user = Model.getInstance().getCurrentUser();
+                    AppUser user = Model.getInstance().getCurrentUser();
                     user.addGroceryList(newGroceryList);
                     mAdapter.setItems(user.getGroceryLists());
                 }

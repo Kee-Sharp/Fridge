@@ -1,16 +1,14 @@
 package com.team300.fridge;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.team300.fridge.POJOs.AppUser;
 import com.team300.fridge.POJOs.Model;
-import com.team300.fridge.POJOs.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
@@ -29,7 +27,7 @@ public class LoginActivity extends AppCompatActivity {
         Button registerButton = findViewById(R.id.registerButton);
 
         loginButton.setOnClickListener((v) -> {
-            User attemptedUser = attemptLogin();
+            AppUser attemptedUser = attemptLogin();
             if (attemptedUser != null) {
                 Model.getInstance().switchUser(attemptedUser);
                 Intent intent = new Intent(this, MainActivity.class);
@@ -41,14 +39,14 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public User attemptLogin() {
-        List<User> allUsers = Model.getInstance().getUsers();
+    public AppUser attemptLogin() {
+        List<AppUser> allUsers = Model.getInstance().getUsers();
         String currentEmail = emailEditText.getText().toString();
         String currentPass = passwordEditText.getText().toString();
         //search for a matching email, and then check if password is correct
-        for (User user: allUsers) {
+        for (AppUser user: allUsers) {
             if (user.getEmail().equals(currentEmail)) {
-                if (user.getPasshash() == User.hash(currentPass)) {
+                if (user.getPasshash() == AppUser.hash(currentPass)) {
                     return user;
                 } else {
                     passwordEditText.setError("Incorrect Password");
