@@ -45,6 +45,7 @@ public class AddGroceryListActivity extends AppCompatActivity {
             boolean error = false;
             if (groceryListName.getText().toString().length() == 0) {
                 groceryListName.setError("Must have a name");
+                groceryListName.requestFocus();
                 error = true;
             }
             if (mAdapter.getSelectedItems().size() == 0) {

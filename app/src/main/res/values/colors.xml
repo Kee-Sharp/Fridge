@@ -19,4 +19,5 @@
     <color name="yellow">#FFDE74</color>
     <color name="red">#EB7C54</color>
     <color name="grey">#BDBDBD</color>
+    <color name="clear_grey">#55BDBDBD</color>
 </resources>
