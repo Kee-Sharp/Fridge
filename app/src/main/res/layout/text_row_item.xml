@@ -5,15 +5,25 @@
 
     <TextView
         android:id="@+id/number"
-        android:layout_width="30dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginStart="50dp"
+        android:layout_marginVertical="@dimen/text_margin"
+        android:layout_marginEnd="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/name"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/expirationDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:textAppearance="?attr/textAppearanceListItem"/>
 </LinearLayout>

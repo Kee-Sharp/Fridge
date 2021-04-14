@@ -10,6 +10,9 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- Fridge Colors -->
+    <color name="design_default_color_primary">#80BC40</color>
+    <color name="design_default_color_primary_dark">#80BC40</color>
+    <color name="mtrl_scrim_color">#FFDE74</color>
     <color name="dgreen">#80BC40</color>
     <color name="lgreen">#E2FADD</color>
     <color name="brown">#544831</color>

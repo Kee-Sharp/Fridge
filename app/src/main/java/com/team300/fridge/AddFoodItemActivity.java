@@ -31,7 +31,7 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
         recyclerView.setAdapter(mAdapter);
 
         //return to MainActivity with no new food item
-        Button buttonBack = findViewById(R.id.button_second);
+        Button buttonBack = findViewById(R.id.backButton);
         buttonBack.setOnClickListener(v -> {
             setResult(Activity.RESULT_CANCELED);
             finish();
