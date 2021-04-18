@@ -15,6 +15,8 @@ import com.team300.fridge.POJOs.Model;
 import com.team300.fridge.POJOs.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -41,6 +43,7 @@ public class FridgeListAdapter
         public final View mView;
         public final TextView mNumberView;
         public final TextView mNameView;
+        public final TextView mExpiresView;
         public FoodItem mFoodItem;
 
         public ViewHolder(View view) {
@@ -48,6 +51,7 @@ public class FridgeListAdapter
             mView = view;
             mNumberView = (TextView) view.findViewById(R.id.number);
             mNameView = (TextView) view.findViewById(R.id.name);
+            mExpiresView = (TextView) view.findViewById(R.id.expirationDate);
         }
 
         @Override
@@ -60,7 +64,11 @@ public class FridgeListAdapter
      * @param items the list of items to be displayed in the recycler view
      */
     public FridgeListAdapter(List<FoodItem> items) {
-        mFoodItems = items;
+        mFoodItems = new ArrayList<>();
+        for (FoodItem item: items) {
+            mFoodItems.add(item.clone());
+        }
+        mFoodItems.sort(Comparator.comparing(FoodItem::getDaysTilExpiration));
     }
 
     @Override
@@ -92,7 +100,7 @@ public class FridgeListAdapter
          */
         holder.mNumberView.setText("" + item.getQuantity());
         holder.mNameView.setText(item.getName());
-
+        holder.mExpiresView.setText(item.getExpiresInText());
         /*
          * set up a listener to handle if the user clicks on this list item, what should happen?
          */
@@ -230,6 +238,10 @@ public class FridgeListAdapter
     }
 
     public void setFoodItems(List<FoodItem> foodItems) {
-        this.mFoodItems = foodItems;
+        mFoodItems = new ArrayList<>();
+        for (FoodItem item: foodItems) {
+            mFoodItems.add(item.clone());
+        }
+        mFoodItems.sort(Comparator.comparing(FoodItem::getDaysTilExpiration));
     }
 }

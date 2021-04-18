@@ -70,7 +70,7 @@ public class FridgeFragment extends Fragment {
         recyclerView.setAdapter(mAdapter);
 
         //starts the AddFoodItemActivity, expecting data for a FoodItem in return
-        Button addButton = view.findViewById(R.id.button_first);
+        Button addButton = view.findViewById(R.id.addButton);
         addButton.setOnClickListener((v)->{
             Intent intent = new Intent(getActivity(), AddFoodItemActivity.class);
             startActivityForResult(intent, ADD_FOOD_ITEM_REQUEST);

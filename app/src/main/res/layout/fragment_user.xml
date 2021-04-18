@@ -7,56 +7,115 @@
     tools:context=".Tabs.UserFragment">
 
     <TextView
-        android:id="@+id/welcome"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="87dp"
-        android:text="Welcome to Fridge!"
-        android:textSize="32dp"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/welcome"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="64dp"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="32dp"
-        android:text="User's name"/>
+        android:layout_marginTop="32dp"
+        android:text="Settings"
+        android:textSize="28sp"
+        android:textStyle="bold" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginHorizontal="32dp"
+        android:background="@color/grey" />
+
+    <LinearLayout
+        android:id="@+id/nameLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        android:layout_marginTop="48dp"
+        android:gravity="center">
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:id="@+id/firstName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="User's"
+                android:textSize="20sp"
+                android:fontFamily="@font/comfortaa_light"/>
+
+            <TextView
+                android:id="@+id/lastName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="name"
+                android:textSize="20sp"
+                android:fontFamily="@font/comfortaa_light"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="25dp"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/name"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameLayout"
         android:layout_marginTop="@dimen/text_margin"
-        android:layout_marginStart="32dp"
-        android:text="User's email"/>
+        android:text="User's email"
+        android:textStyle="italic"/>
+
+    <TextView
+        android:id="@+id/memberSince"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/email"
+        android:layout_marginTop="4dp"
+        android:text="Fridge member since '21"
+        android:textStyle="italic"/>
 
     <TextView
         android:id="@+id/notificationDateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/email"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="@dimen/text_margin"
+        app:layout_constraintTop_toBottomOf="@id/memberSince"
         android:layout_marginStart="32dp"
-        android:text="Select the days that you \nwant to receive notifications:"
-        />
+        android:layout_marginTop="48dp"
+        android:text="Receive notifications:"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.LinearLayoutCompat
         android:id="@+id/firstFour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/text_margin"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/notificationDateText">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/notificationDateText"
+        android:layout_marginTop="@dimen/text_margin"
+        android:orientation="horizontal">
 
         <CheckBox
             android:id="@+id/monday"
@@ -91,8 +150,8 @@
         android:id="@+id/linearLayoutCompat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/firstFour">
 
         <CheckBox
@@ -117,35 +176,43 @@
             android:text="Sun" />
     </android.support.v7.widget.LinearLayoutCompat>
 
-    <Button
-        android:id="@+id/demo"
-        android:layout_width="wrap_content"
+    <android.support.design.button.MaterialButton
+        android:id="@+id/about"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
+        android:text="About the App"
+        app:layout_constraintBottom_toTopOf="@id/financeButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:icon="@drawable/outline_lightbulb_24"
+        android:layoutDirection="rtl" />
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/financeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="92dp"
-        android:text="Demo Notification"/>
-
-    <Button
-        android:id="@+id/financeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
+        app:layout_constraintBottom_toTopOf="@id/demo"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="16dp"
         android:text="Finance Tracker"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.845"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:icon="@drawable/ic_baseline_show_chart_24"
+        android:layoutDirection="rtl" />
 
-    <Button
-        android:id="@+id/about"
-        android:layout_width="wrap_content"
+    <android.support.design.button.MaterialButton
+        android:id="@+id/demo"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="160dp"
-        android:text="About the App"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.177"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="80dp"
+        android:text="Demo Notification"
+        app:icon="@drawable/ic_baseline_notifications_24"
+        android:layoutDirection="rtl" />
+
 </android.support.constraint.ConstraintLayout>

@@ -88,8 +88,10 @@ public class UserFragment extends Fragment {
         View view = getView();
         assert view != null;
 
-        TextView name = view.findViewById(R.id.name);
-        name.setText(mUser.getName());
+        TextView firstName = view.findViewById(R.id.firstName);
+        firstName.setText(mUser.getName().split(" ")[0]);
+        TextView lastName = view.findViewById(R.id.lastName);
+        lastName.setText(mUser.getName().split(" ")[1]);
         TextView email = view.findViewById(R.id.email);
         email.setText(mUser.getEmail());
 

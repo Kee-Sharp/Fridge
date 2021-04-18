@@ -71,12 +71,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login"
-        android:textColor="@color/white"
-        android:background="@color/dgreen"
+        style="@style/Widget.Fridge.PrimaryButton"
         app:layout_constraintTop_toBottomOf="@+id/passwordEditText"
         android:layout_marginStart="48dp"
         android:layout_marginEnd="48dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="120dp"
         />
 
     <Button

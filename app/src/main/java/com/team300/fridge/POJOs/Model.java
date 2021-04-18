@@ -58,6 +58,7 @@ public class Model {
     private void loadDummyData() {
         //create list of "all" food items, using this list of names
         Date today = new Date();
+        LocalDate todayLocal = LocalDate.now();
         List<String> names = new ArrayList<>();
         names.add("Apple");
         names.add("Banana");
@@ -109,6 +110,8 @@ public class Model {
             for (FoodItem item: foodItemList) {
                 //mix up the quantity so it's not all 1
                 item.setQuantity(r.nextInt(20) + 1);
+                //mix up the purchase date
+                item.setPurchaseDate(toDate(todayLocal.plusDays(r.nextInt(21) - 15)));
             }
             foodItemLists[i] = foodItemList;
             groceryListLists[i] = generateSubset(allGroceryLists);
@@ -122,7 +125,7 @@ public class Model {
         for (User u: _users) {
             Log.d("user hash", u.getName() + " Hash: " + u.getPasshash());
         }
-//        Log.d("aag food items", _users.get(0).getFoodItems().toString());
+        Log.d("spencer food items", _users.get(3).getFoodItems().toString());
     }
 
 
@@ -150,6 +153,13 @@ public class Model {
         return java.util.Date.from(date.atStartOfDay()
                 .atZone(ZoneId.systemDefault())
                 .toInstant());
+    }
+
+    // method to convert java.util.Date into LocalDate
+    public static LocalDate toLocalDate(Date date) {
+        return date.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
     }
 
     //helper method for setting dummy data

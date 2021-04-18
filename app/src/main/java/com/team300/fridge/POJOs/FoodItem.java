@@ -4,6 +4,8 @@ package com.team300.fridge.POJOs;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -100,6 +102,30 @@ public class FoodItem implements Parcelable, Cloneable<FoodItem> {
 
     public void setPurchaseDate(Date purchaseDate) {
         this.purchaseDate = purchaseDate;
+    }
+
+    public long getDaysTilExpiration() {
+        LocalDate today = LocalDate.now();
+        //This assumes the expiration date is 10 days after the purchase date
+        //The actual date will be calculated from our database
+        LocalDate expiration = Model.toLocalDate(purchaseDate).plusDays(10);
+        return ChronoUnit.DAYS.between(today, expiration);
+    }
+
+    public String getExpiresInText() {
+        long between = getDaysTilExpiration();
+        if (between > 0) {
+            if (between < 7) {
+                return "" + between + (between > 1 ? " days" : " day");
+            } else {
+                int numWeeks = (int) (between / 7);
+                return ""  + numWeeks + (numWeeks > 1 ? " weeks" : " week");
+            }
+        } else if (between == 0) {
+            return "Today!";
+        } else {
+            return "" + between * -1 + (between < -1 ? " DAYS AGO" : " DAY AGO");
+        }
     }
 
     @Override
