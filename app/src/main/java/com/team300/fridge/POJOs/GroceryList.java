@@ -7,13 +7,24 @@ import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 
-public class GroceryList implements Parcelable, Cloneable<GroceryList> {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
+public class GroceryList extends RealmObject implements Parcelable, Cloneable<GroceryList> {
+    @Required
+    private String object_id = "user1";
+
+    @PrimaryKey
+    private int _id;
     private String name;
     private Date createdOn;
-    private List<FoodItem> items;
+    private RealmList<FoodItem> items;
 
-    public GroceryList(String name, List<FoodItem> items) {
+    public GroceryList(String name, RealmList<FoodItem> items) {
         if (name == null) {
             throw new InvalidParameterException("Name must not be null");
         } else if (items.size() == 0) {
@@ -24,11 +35,32 @@ public class GroceryList implements Parcelable, Cloneable<GroceryList> {
             this.items = items;
         }
     }
-    //create GroceryList from parcel information
+
+    public GroceryList(String name, List<FoodItem> items) {
+        if (name == null) {
+            throw new InvalidParameterException("Name must not be null");
+        } else if (items.size() == 0) {
+            throw new InvalidParameterException("Items must not be empty");
+        } else {
+            this.name = name;
+            this.createdOn = new Date();
+            this.items = new RealmList<FoodItem>();
+            ListIterator<FoodItem> iterator = items.listIterator();
+
+            while(iterator.hasNext()) {
+                this.items.add(iterator.next());
+            }
+        }
+    }
+
+
+    public GroceryList(){this("default", new RealmList<FoodItem>());}
+
+    //create FoodItem from parcel information
     private GroceryList(Parcel in){
         this.name = in.readString();
         this.createdOn = (java.util.Date)in.readSerializable();
-        items = new ArrayList<>();
+        items = new RealmList<FoodItem>();
         in.readTypedList(items, FoodItem.CREATOR);
     }
     //------------------------------------Parcelable //TODO: ensure correct data is passed in/out
@@ -79,12 +111,12 @@ public class GroceryList implements Parcelable, Cloneable<GroceryList> {
         this.createdOn = createdOn;
     }
 
-    public void setItems(List<FoodItem> items) {
+    public void setItems(RealmList<FoodItem> items) {
         this.items = items;
     }
 
     public void addItem(FoodItem item) {
-        this.items = FoodItem.addFoodItemToList(items, item);
+        this.items.add(item);
     }
 
     @Override

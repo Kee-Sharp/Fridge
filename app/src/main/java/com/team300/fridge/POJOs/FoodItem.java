@@ -7,28 +7,54 @@ import android.os.Parcelable;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import org.bson.types.ObjectId;
 import java.util.Date;
 import java.util.List;
 
-public class FoodItem implements Parcelable, Cloneable<FoodItem> {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
+
+public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodItem> {
+    @Required
+    private String object_id = "user1";
+
+    @PrimaryKey
+    private ObjectId _id;
     private String name;
-    private int productId; //based on FoodKeeper Data
+    private Product productId; //based on FoodKeeper Data
     private int quantity; //unit quantity of item
     private String location; //TODO: turn location into enum with "Fridge", "Pantry", "Freezer"
     private Date purchaseDate; //date of purchase
+    private int status; //status of FoodItem, whether it is in grocery list (0), in stock(1), eaten(2), or thrown away(3)
 
-    public FoodItem(String name, int productId, int quantity, Date purchaseDate) {
-        if (name != null && productId > 0 && quantity > 0) {
+
+    public static RealmList<com.team300.fridge.POJOs.FoodItem> addFoodItemToList(RealmList<com.team300.fridge.POJOs.FoodItem> items, com.team300.fridge.POJOs.FoodItem item) {
+        items.add(item);
+        return items;
+    }
+    public FoodItem(String name, Product productId, int quantity, Date purchaseDate) {
+        if (name != null && productId != null && quantity > 0) {
+            this._id = ObjectId.get();
             this.name = name;
             this.productId = productId;
             this.quantity = quantity;
             this.purchaseDate = purchaseDate;
+            this.status = 1;
         }
     }
+
+    public FoodItem(){
+        this("default", new Product("Coffee creamer", "liquid refrigerated", "Dairy Products & Eggs", "Coffee creamer,Coffee, creamer,liquid refrigerated", -1, 21, -1, 2.0), 1, null);
+    }
+
     //create FoodItem from parcel information
     private FoodItem(Parcel in){
+        object_id = in.readString();
+        _id = (ObjectId) in.readSerializable();
         name = in.readString();
-        productId = in.readInt();
+        productId = (Product)in.readTypedObject(Product.CREATOR);
         quantity = in.readInt();
         location = in.readString();
         purchaseDate = (java.util.Date)in.readSerializable();
@@ -42,8 +68,10 @@ public class FoodItem implements Parcelable, Cloneable<FoodItem> {
     //write necessary data
     @Override
     public void writeToParcel(Parcel out, int flags){
+        out.writeString(object_id);
+        out.writeSerializable(_id);
         out.writeString(name);
-        out.writeInt(productId);
+        out.writeValue((Object)productId);
         out.writeInt(quantity);
         out.writeString(location);
         out.writeSerializable(purchaseDate);
@@ -64,11 +92,16 @@ public class FoodItem implements Parcelable, Cloneable<FoodItem> {
     private Date findBestByDate() {
         return null;
     }
+
+    public String getObject_id(){return object_id;}
+
+    public ObjectId get_id(){return _id;}
+
     public String getName() {
         return name;
     }
 
-    public int getProductId() {
+    public Product getProductId() {
         return productId;
     }
 
@@ -88,7 +121,7 @@ public class FoodItem implements Parcelable, Cloneable<FoodItem> {
         this.name = name;
     }
 
-    public void setProductId(int productId) {
+    public void setProductId(Product productId) {
         this.productId = productId;
     }
 
@@ -131,6 +164,8 @@ public class FoodItem implements Parcelable, Cloneable<FoodItem> {
     @Override
     public String toString() {
         return "FoodItem{" +
+                "object_id="+object_id+'\''+
+                "_id="+_id.toString()+'\''+
                 "name='" + name + '\'' +
                 ", productId=" + productId +
                 ", quantity=" + quantity +
@@ -139,8 +174,8 @@ public class FoodItem implements Parcelable, Cloneable<FoodItem> {
                 '}';
     }
 
-    public static List<FoodItem> addFoodItemToList(List<FoodItem> items, FoodItem newItem) {
-        List<FoodItem> newList = new ArrayList<>();
+    public static RealmList<FoodItem> addFoodItemToList(List<FoodItem> items, FoodItem newItem) {
+        RealmList<FoodItem> newList = new RealmList<FoodItem>();
         boolean duplicateFound = false;
         // if already in list update its' quantity, else just add it
         for (FoodItem f: items) {

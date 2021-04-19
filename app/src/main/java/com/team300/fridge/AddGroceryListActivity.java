@@ -2,8 +2,8 @@ package com.team300.fridge;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,6 +15,8 @@ import com.team300.fridge.POJOs.Model;
 
 import java.util.List;
 
+import io.realm.RealmList;
+
 public class AddGroceryListActivity extends AppCompatActivity {
 
     protected EditText groceryListName;
@@ -22,6 +24,7 @@ public class AddGroceryListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.setContext(this);
         setContentView(R.layout.activity_add_grocery_list);
 
         groceryListName = findViewById(R.id.groceryListName);
@@ -56,7 +59,7 @@ public class AddGroceryListActivity extends AppCompatActivity {
             if (!error) {
                 //return to ViewGroceryListsFragment with information
                 Intent result = new Intent(AddGroceryListActivity.this, MainActivity.class);
-                GroceryList newGroceryList = new GroceryList(groceryListName.getText().toString(), mAdapter.getSelectedItems());
+                GroceryList newGroceryList = new GroceryList(groceryListName.getText().toString(), (RealmList)mAdapter.getSelectedItems());
                 result.putExtra("new_list", newGroceryList);
                 setResult(Activity.RESULT_OK, result);
                 finish();

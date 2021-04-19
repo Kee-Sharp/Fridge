@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class User implements Parcelable {
+public class AppUser implements Parcelable {
 
     private String name;
     private String email;
@@ -18,7 +18,9 @@ public class User implements Parcelable {
     private List<FoodItem> foodItems;
     private List<GroceryList> groceryLists;
 
-    public User(String name, String email, String password) {
+
+    public AppUser(String name, String email, String password) {
+
         if (name == null) {
             throw new InvalidParameterException("Name must not be null");
         } else if (email == null || !email.matches("^.+@.+\\..+")) {
@@ -31,14 +33,14 @@ public class User implements Parcelable {
         }
     }
 
-    public User(String name, String email, String password, List<FoodItem> foodItems, List<GroceryList> groceryLists) {
+    public AppUser(String name, String email, String password, List<FoodItem> foodItems, List<GroceryList> groceryLists) {
         this(name, email, password);
         this.foodItems = foodItems;
         this.groceryLists = groceryLists;
     }
 
     //create User from Parcel information
-    private User(Parcel in) {
+    private AppUser(Parcel in) {
         name = in.readString();
         email = in.readString();
         notificationDates = new ArrayList<>();
@@ -67,15 +69,15 @@ public class User implements Parcelable {
     }
 
     //need creator field for new items
-    public static final Parcelable.Creator<User> CREATOR
-            = new Parcelable.Creator<User>(){
+    public static final Parcelable.Creator<AppUser> CREATOR
+            = new Parcelable.Creator<AppUser>(){
         @Override
-        public User createFromParcel(Parcel in){
-            return new User(in);
+        public AppUser createFromParcel(Parcel in){
+            return new AppUser(in);
         }
         @Override
-        public User[] newArray(int size){
-            return new User[size];
+        public AppUser[] newArray(int size){
+            return new AppUser[size];
         }
     };
 
