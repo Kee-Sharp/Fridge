@@ -11,6 +11,9 @@ import android.widget.SearchView;
 
 import com.team300.fridge.POJOs.Model;
 import com.team300.fridge.POJOs.Product;
+import com.team300.fridge.POJOs.FoodItem;
+
+import org.bson.types.ObjectId;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -77,7 +80,7 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
 
     //pass information about the new FoodItem back to the MainActivity
     @Override
-    public void saveInformation(String name, String quantity, String dateString) {
+    public void saveInformation(String name,  int _id, String quantity, String dateString) {
         //reset searchView before going back
         searchView.setQuery("", true);
         String[] separated = dateString.split("/");
@@ -85,6 +88,14 @@ public class AddFoodItemActivity extends AppCompatActivity implements FoodItemDi
         int day = Integer.parseInt(separated[1]);
         int year = Integer.parseInt(separated[2]);
         Date date = Model.toDate(LocalDate.of(year, month, day));
+        Product p = Model.getInstance().get_products().get(_id);
+        MainActivity.getUiThreadRealm().executeTransaction(r-> {
+            FoodItem f = r.createObject(FoodItem.class, new ObjectId());
+            f.setName(name);
+            f.setProductId(p);
+            f.setQuantity(Integer.parseInt(quantity));
+            f.setPurchaseDate(date);
+        });
         Intent result = new Intent(AddFoodItemActivity.this, MainActivity.class);
         result.putExtra("name", name);
         result.putExtra("quantity", Integer.parseInt(quantity));

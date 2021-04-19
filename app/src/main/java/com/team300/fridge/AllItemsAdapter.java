@@ -79,6 +79,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
         */
         holder.mNameView.setText(item.getNameAndSub());
 
+
         /*
          * set up a listener to handle if the user clicks on this list item, what should happen?
          */
@@ -116,6 +117,7 @@ public class AllItemsAdapter extends RecyclerView.Adapter<AllItemsAdapter.ViewHo
         FoodItemDialog dialog = new FoodItemDialog();
         Bundle args = new Bundle();
         args.putString("Food_Item_Name", item.getName());
+        args.putInt("Product_id", item.get_id());
         dialog.setArguments(args);
         AddFoodItemActivity a = (AddFoodItemActivity) v.getContext();
         dialog.show(a.getSupportFragmentManager(), "food item dialog");

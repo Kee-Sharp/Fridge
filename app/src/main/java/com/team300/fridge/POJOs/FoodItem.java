@@ -18,7 +18,7 @@ import io.realm.annotations.Required;
 
 public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodItem> {
     @Required
-    private String object_id = "user1";
+    private String object_id;
 
     @PrimaryKey
     private ObjectId _id;
@@ -34,8 +34,10 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
         items.add(item);
         return items;
     }
-    public FoodItem(String name, Product productId, int quantity, Date purchaseDate) {
+
+    public FoodItem(String object_id, String name, Product productId, int quantity, Date purchaseDate) {
         if (name != null && productId != null && quantity > 0) {
+            this.object_id = object_id;
             this._id = ObjectId.get();
             this.name = name;
             this.productId = productId;
@@ -43,6 +45,10 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
             this.purchaseDate = purchaseDate;
             this.status = 1;
         }
+    }
+
+    public FoodItem(String name, Product productId, int quantity, Date purchaseDate) {
+        this(Model.getInstance().getCurrentUser().getEmail(), name, productId, quantity, purchaseDate);
     }
 
     public FoodItem(){
@@ -193,7 +199,7 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
 
     @Override
     public FoodItem clone() {
-        return new FoodItem(name, productId, quantity, purchaseDate);
+        return new FoodItem(object_id, name, productId, quantity, purchaseDate);
     }
 }
 

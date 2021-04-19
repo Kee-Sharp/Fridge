@@ -1,4 +1,4 @@
-package com.team300.fridge;
+package com.team300.fridge.POJOs;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -12,7 +12,7 @@ import io.realm.annotations.Required;
 
 public class CostSummary extends RealmObject implements Parcelable {
     @Required
-    private String object_id = "user1";
+    private String object_id;
 
     @PrimaryKey
     private int _id;
@@ -30,6 +30,8 @@ public class CostSummary extends RealmObject implements Parcelable {
 
     public CostSummary(Date month_year, int monthly_cost, int monthly_waste){
         if (month_year != null) {
+            Model model = Model.getInstance();
+            this.object_id = model.getCurrentUser().getEmail();
             this.month_year = month_year;
             this.monthly_cost = monthly_cost;
             this.monthly_waste = monthly_cost;
@@ -40,6 +42,7 @@ public class CostSummary extends RealmObject implements Parcelable {
     }
 
     private CostSummary(Parcel in){
+        object_id = in.readString();
         _id = in.readInt();
         month_year = (Date)in.readSerializable();
         monthly_cost = in.readFloat();
@@ -48,6 +51,7 @@ public class CostSummary extends RealmObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel out, int flags){
+        out.writeString(object_id);
         out.writeInt(_id);
         out.writeSerializable((Serializable)month_year);
         out.writeFloat(monthly_cost);

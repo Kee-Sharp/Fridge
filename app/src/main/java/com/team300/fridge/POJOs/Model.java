@@ -42,7 +42,7 @@ public class Model {
     private List<AppUser> _users;
 
     /** points to the current User **/
-    private AppUser currentUser;
+    private static AppUser currentUser;
 
     /** holds the list of all products in FoodKeeper **/
     private List<Product> _products;
@@ -69,6 +69,16 @@ public class Model {
      * comment out when adding new courses functionality is present.
      */
     private void loadDummyData() {
+
+        _users.add(new AppUser("Abigail Gutierrez-Ray", "aagray@gatech.edu", "password1", null, null));
+        _users.add(new AppUser("Deepti Vaidyanathan", "deeptivaidyanathan@gatech.edu", "password2", null, null));
+        _users.add(new AppUser("Miranda Bisson", "mbisson3@gatech.edu", "password3", null, null));
+        _users.add(new AppUser("Spencer Kee", "skee8@gatech.edu", "password4", null, null));
+        _users.add(new AppUser("Tori Kraj", "victoria.kraj@gatech.edu", "password5",null, null));
+        for (AppUser u: _users) {
+            Log.d("user hash", u.getName() + " Hash: " + u.getPasshash());
+        }
+
         //create list of "all" food items, using this list of names
         Date today = new Date();
         LocalDate todayLocal = LocalDate.now();
@@ -98,20 +108,20 @@ public class Model {
         Collections.sort(names);
         int id = 1;
         for (String n: names) {
-            _allFoodItems.add(new FoodItem(n, _products.get(id++), 1, today));
+            _allFoodItems.add(new FoodItem(_users.get(id%5).getEmail(),n, _products.get(id++), 1, today));
         }
         //create list of "all" grocery lists
         List<GroceryList> allGroceryLists = new ArrayList<>();
-        GroceryList groceryList1 = new GroceryList("List 1", generateSubset(_allFoodItems));
+        GroceryList groceryList1 = new GroceryList(_users.get(0).getEmail(), "List 1", generateSubset(_allFoodItems));
         groceryList1.setCreatedOn(Model.toDate(LocalDate.of(2021, 1, 14)));
         allGroceryLists.add(groceryList1);
-        GroceryList groceryList2 = new GroceryList("List 2", generateSubset(_allFoodItems));
+        GroceryList groceryList2 = new GroceryList(_users.get(1).getEmail(), "List 2", generateSubset(_allFoodItems));
         groceryList2.setCreatedOn(Model.toDate(LocalDate.of(2021, 2, 27)));
         allGroceryLists.add(groceryList2);
-        GroceryList groceryList3 = new GroceryList("List 3", generateSubset(_allFoodItems));
+        GroceryList groceryList3 = new GroceryList(_users.get(2).getEmail(), "List 3", generateSubset(_allFoodItems));
         groceryList3.setCreatedOn(Model.toDate(LocalDate.of(2021, 3, 18)));
         allGroceryLists.add(groceryList3);
-        GroceryList groceryList4 = new GroceryList("List 4", generateSubset(_allFoodItems));
+        GroceryList groceryList4 = new GroceryList(_users.get(0).getEmail(), "List 4", generateSubset(_allFoodItems));
         groceryList4.setCreatedOn(Model.toDate(LocalDate.of(2021, 4, 2)));
         allGroceryLists.add(groceryList4);
 
@@ -132,15 +142,20 @@ public class Model {
             groceryListLists[i] = generateSubset(allGroceryLists);
         }
 
-        _users.add(new AppUser("Abigail Gutierrez-Ray", "aagray@gatech.edu", "password1", foodItemLists[0], groceryListLists[0]));
-        _users.add(new AppUser("Deepti Vaidyanathan", "deeptivaidyanathan@gatech.edu", "password2", foodItemLists[1], groceryListLists[1]));
-        _users.add(new AppUser("Miranda Bisson", "mbisson3@gatech.edu", "password3", foodItemLists[2], groceryListLists[2]));
-        _users.add(new AppUser("Spencer Kee", "skee8@gatech.edu", "password4", foodItemLists[3], groceryListLists[3]));
-        _users.add(new AppUser("Tori Kraj", "victoria.kraj@gatech.edu", "password5", foodItemLists[4], groceryListLists[4]));
+//        _users.add(new AppUser("Abigail Gutierrez-Ray", "aagray@gatech.edu", "password1", foodItemLists[0], groceryListLists[0]));
+//        _users.add(new AppUser("Deepti Vaidyanathan", "deeptivaidyanathan@gatech.edu", "password2", foodItemLists[1], groceryListLists[1]));
+//        _users.add(new AppUser("Miranda Bisson", "mbisson3@gatech.edu", "password3", foodItemLists[2], groceryListLists[2]));
+//        _users.add(new AppUser("Spencer Kee", "skee8@gatech.edu", "password4", foodItemLists[3], groceryListLists[3]));
+//        _users.add(new AppUser("Tori Kraj", "victoria.kraj@gatech.edu", "password5", foodItemLists[4], groceryListLists[4]));
         for (AppUser u: _users) {
             Log.d("user hash", u.getName() + " Hash: " + u.getPasshash());
         }
+        for (int i = 0; i < _users.size(); i++){
+            _users.get(i).setFoodItems(foodItemLists[i]);
+            _users.get(i).setGroceryLists(groceryListLists[i]);
+        }
 //        Log.d("aag food items", _users.get(0).getFoodItems().toString());
+
 
     }
 
@@ -152,14 +167,14 @@ public class Model {
                 .build();
         Realm productRealm = Realm.getInstance(config);
 
-        productRealm.executeTransaction(new Realm.Transaction() {
+        MainActivity.getUiThreadRealm().executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 try {
                     AssetManager am = MainActivity.getAppContext().getAssets();
                     InputStream is = am.open("Product.json");
 
-                    productRealm.createAllFromJson(Product.class, is);
+                    MainActivity.getUiThreadRealm().createAllFromJson(Product.class, is);
                     is.close();
                 } catch (Exception e) {
                     Log.v("MODEL", "Was not able to add products from JSON to Realm");
@@ -168,8 +183,8 @@ public class Model {
             }
         });
 
-        RealmResults<Product> productRealmResults = productRealm.where(Product.class).findAll();
-        Product productFirst = productRealm.where(Product.class).findFirst();
+        RealmResults<Product> productRealmResults = MainActivity.getUiThreadRealm().where(Product.class).findAll();
+//        Product productFirst = MainActivity.getUiThreadRealm().where(Product.class).findFirst();
         if (productRealmResults == null){
             Log.v("MODEL", "Product realm returned null after query");
         } else {
@@ -196,7 +211,7 @@ public class Model {
         return currentUser;
     }
 
-    public void switchUser(AppUser user) {
+    public static void switchUser(AppUser user) {
         currentUser = user;
     }
 

@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int SCHEMA_V_PREV = 4;// previous schema version
     private static final int SCHEMA_V_NOW = 5;// change schema version if any change happened in schema
 
-    Realm uiThreadRealm;
+    private static Realm uiThreadRealm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +130,22 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         uiThreadRealm.close();
+    }
+
+    public static Realm getUiThreadRealm() {
+        return uiThreadRealm;
+    }
+
+    public static void setUiThreadRealm(Realm uiThreadRealm) {
+        MainActivity.uiThreadRealm = uiThreadRealm;
+    }
+
+    public static int getSchemaVNow() {
+        return SCHEMA_V_NOW;
+    }
+
+    public static int getSchemaVPrev() {
+        return SCHEMA_V_PREV;
     }
 
     public static Context getAppContext() {

@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +20,7 @@ public class FoodItemDialog extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         String name = getArguments().getString("Food_Item_Name");
+        int id = getArguments().getInt("Product_id");
         //TODO: Once we have brand information show that as well
         //getArguments().getString("Food_Item_Brand");
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -36,7 +36,7 @@ public class FoodItemDialog extends AppCompatDialogFragment {
         AlertDialog dialog = builder.create();
         dialog.show();
         Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        button.setOnClickListener(new CustomListener(dialog, name));
+        button.setOnClickListener(new CustomListener(dialog, name, id));
         dialog.dismiss();
         return dialog;
     }
@@ -45,10 +45,12 @@ public class FoodItemDialog extends AppCompatDialogFragment {
     public class CustomListener implements View.OnClickListener {
         private final Dialog dialog;
         private String name;
+        private int id;
 
-        public CustomListener(Dialog dialog, String name) {
+        public CustomListener(Dialog dialog, String name, int id) {
             this.dialog = dialog;
             this.name = name;
+            this.id = id;
         }
         @Override
         public void onClick(View v) {
@@ -77,7 +79,7 @@ public class FoodItemDialog extends AppCompatDialogFragment {
                 }
             }
             if (!error) {
-                mListener.saveInformation(name, quantity, dateString);
+                mListener.saveInformation(name, id, quantity, dateString);
                 dialog.dismiss();
             }
         }
@@ -101,6 +103,6 @@ public class FoodItemDialog extends AppCompatDialogFragment {
     }
 
     public interface FoodItemDialogListener {
-        void saveInformation(String name, String quantity, String date);
+        void saveInformation(String name, int _id, String quantity, String date);
     }
 }

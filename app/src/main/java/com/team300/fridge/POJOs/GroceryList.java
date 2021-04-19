@@ -16,7 +16,7 @@ import io.realm.annotations.Required;
 
 public class GroceryList extends RealmObject implements Parcelable, Cloneable<GroceryList> {
     @Required
-    private String object_id = "user1";
+    private String object_id;
 
     @PrimaryKey
     private int _id;
@@ -24,12 +24,27 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
     private Date createdOn;
     private RealmList<FoodItem> items;
 
-    public GroceryList(String name, RealmList<FoodItem> items) {
+    public GroceryList(String object_id, String name, RealmList<FoodItem> items) {
         if (name == null) {
             throw new InvalidParameterException("Name must not be null");
         } else if (items.size() == 0) {
             throw new InvalidParameterException("Items must not be empty");
         } else {
+            this.object_id = object_id;
+            this.name = name;
+            this.createdOn = new Date();
+            this.items = items;
+        }
+    }
+
+    public GroceryList(String name, RealmList<FoodItem> items) {
+        Model model = Model.getInstance();
+        if (name == null) {
+            throw new InvalidParameterException("Name must not be null");
+        } else if (items.size() == 0) {
+            throw new InvalidParameterException("Items must not be empty");
+        } else {
+            this.object_id = model.getCurrentUser().getEmail();
             this.name = name;
             this.createdOn = new Date();
             this.items = items;
@@ -37,11 +52,31 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
     }
 
     public GroceryList(String name, List<FoodItem> items) {
+        Model model = Model.getInstance();
         if (name == null) {
             throw new InvalidParameterException("Name must not be null");
         } else if (items.size() == 0) {
             throw new InvalidParameterException("Items must not be empty");
         } else {
+            this.object_id = model.getCurrentUser().getEmail();
+            this.name = name;
+            this.createdOn = new Date();
+            this.items = new RealmList<FoodItem>();
+            ListIterator<FoodItem> iterator = items.listIterator();
+
+            while(iterator.hasNext()) {
+                this.items.add(iterator.next());
+            }
+        }
+    }
+
+    public GroceryList(String object_id, String name, List<FoodItem> items) {
+        if (name == null) {
+            throw new InvalidParameterException("Name must not be null");
+        } else if (items.size() == 0) {
+            throw new InvalidParameterException("Items must not be empty");
+        } else {
+            this.object_id = object_id;
             this.name = name;
             this.createdOn = new Date();
             this.items = new RealmList<FoodItem>();
@@ -58,6 +93,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
 
     //create FoodItem from parcel information
     private GroceryList(Parcel in){
+        this.object_id = in.readString();
         this.name = in.readString();
         this.createdOn = (java.util.Date)in.readSerializable();
         items = new RealmList<FoodItem>();
@@ -72,6 +108,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
     //write necessary data
     @Override
     public void writeToParcel(Parcel out, int flags){
+        out.writeString(object_id);
         out.writeString(name);
         out.writeSerializable(createdOn);
         out.writeTypedList(items);
@@ -134,7 +171,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
         for (FoodItem item: items) {
             newItems.add(item.clone());
         }
-        GroceryList ret = new GroceryList(name, newItems);
+        GroceryList ret = new GroceryList(object_id, name, newItems);
         ret.setCreatedOn(createdOn);
         return ret;
     }

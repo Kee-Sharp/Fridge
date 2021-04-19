@@ -11,7 +11,7 @@ import io.realm.annotations.Required;
 
 public class Product extends RealmObject implements Parcelable, Serializable {
     @Required
-    private String object_id;
+    private String object_id = "PUBLIC";
 
 //    @Required
     @PrimaryKey
@@ -46,11 +46,10 @@ public class Product extends RealmObject implements Parcelable, Serializable {
      * @param pantry_open_exp # days for product to expire if stored in pantry already opened
      * @param pantry_closed_exp # days for product to expire if stored in pantry already opened
      */
-    public Product(String object_id, String name, String name_sub, String category, String keywords,
+    public Product(String name, String name_sub, String category, String keywords,
                     int pantry_open_exp, int pantry_closed_exp, int fridge_open_exp,
                     int fridge_closed_exp, int freezer_open_exp, int freezer_closed_exp, double price) {
         if (name != null && name.length() > 0 && price >= 0) {
-            this.object_id = object_id;
             this.name = name;
             this.name_sub = name_sub;
             this.category = category;
@@ -66,12 +65,12 @@ public class Product extends RealmObject implements Parcelable, Serializable {
 
 
     public Product(){
-        this("user1","nothing", null, null,null, 0, 0,0,0,0, 0, 0);
+        this("nothing", null, null,null, 0, 0,0,0,0, 0, 0);
     }
 
     public Product(String name, String name_sub, String category, String keywords,
                     int pantry_exp, int fridge_exp, int freezer_exp, double price) {
-        this("user1", name, name_sub, category, keywords, pantry_exp, pantry_exp, fridge_exp, fridge_exp, freezer_exp, freezer_exp, price);
+        this(name, name_sub, category, keywords, pantry_exp, pantry_exp, fridge_exp, fridge_exp, freezer_exp, freezer_exp, price);
     }
     private Product(Parcel in) {
         Model model = Model.getInstance();
