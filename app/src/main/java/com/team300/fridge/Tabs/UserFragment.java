@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.team300.fridge.FinanceTrackerActivity;
 import com.team300.fridge.AboutActivity;
+import com.team300.fridge.LoginActivity;
 import com.team300.fridge.NotificationUtils;
 import com.team300.fridge.OpenSettingsDialogFragment;
 import com.team300.fridge.R;
@@ -148,6 +149,13 @@ public class UserFragment extends Fragment {
         //show about the app activity
         Button about = view.findViewById(R.id.about);
         about.setOnClickListener(this::onClickTwo);
+        
+        //logout
+        Button logout = view.findViewById(R.id.logout);
+        logout.setOnClickListener((v)->{
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        });
     }
 
 

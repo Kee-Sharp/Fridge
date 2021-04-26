@@ -122,6 +122,7 @@ public class Model {
         _users.add(new User("Miranda Bisson", "mbisson3@gatech.edu", "password3", foodItemLists[2], groceryListLists[2]));
         _users.add(new User("Spencer Kee", "skee8@gatech.edu", "password4", foodItemLists[3], groceryListLists[3]));
         _users.add(new User("Tori Kraj", "victoria.kraj@gatech.edu", "password5", foodItemLists[4], groceryListLists[4]));
+        _users.add(new User("Alex Frigo", "Alex@Fridge.com", "ILoveFridge", foodItemLists[3], groceryListLists[4]));
         for (User u: _users) {
             Log.d("user hash", u.getName() + " Hash: " + u.getPasshash());
         }
