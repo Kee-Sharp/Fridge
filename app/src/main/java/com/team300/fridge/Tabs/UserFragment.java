@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +19,8 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.team300.fridge.FinanceTrackerActivity;
 import com.team300.fridge.AboutActivity;
+import com.team300.fridge.FinanceTrackerActivity;
 import com.team300.fridge.NotificationUtils;
 import com.team300.fridge.OpenSettingsDialogFragment;
 import com.team300.fridge.POJOs.AppUser;
@@ -27,7 +28,9 @@ import com.team300.fridge.R;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 
@@ -122,6 +125,7 @@ public class UserFragment extends Fragment {
             //check if the user has enabled heads-up notifications
             if (myNotificationChannel.getImportance() == NotificationManager.IMPORTANCE_HIGH) {
                 LocalDate today = LocalDate.now();
+                Log.v("DATE", today.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.US));
                 //check if today is marked as a notification day
                 if (notificationDates.contains(today.getDayOfWeek())) {
                     Context context = demoNotification.getContext();

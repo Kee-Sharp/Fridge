@@ -4,10 +4,10 @@ package com.team300.fridge.POJOs;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.bson.types.ObjectId;
+
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import org.bson.types.ObjectId;
 import java.util.Date;
 import java.util.List;
 
@@ -25,10 +25,8 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
     private String name;
     private Product productId; //based on FoodKeeper Data
     private int quantity; //unit quantity of item
-    private String location; //TODO: turn location into enum with "Fridge", "Pantry", "Freezer"
+    private int location; //0=not in pantry, 1 = Pantry, 2=Fridge, 3=Freezer
     private Date purchaseDate; //date of purchase
-    private int status; //status of FoodItem, whether it is in grocery list (0), in stock(1), eaten(2), or thrown away(3)
-
 
     public static RealmList<com.team300.fridge.POJOs.FoodItem> addFoodItemToList(RealmList<com.team300.fridge.POJOs.FoodItem> items, com.team300.fridge.POJOs.FoodItem item) {
         items.add(item);
@@ -43,7 +41,6 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
             this.productId = productId;
             this.quantity = quantity;
             this.purchaseDate = purchaseDate;
-            this.status = 1;
         }
     }
 
@@ -62,7 +59,7 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
         name = in.readString();
         productId = (Product)in.readTypedObject(Product.CREATOR);
         quantity = in.readInt();
-        location = in.readString();
+        location = in.readInt();
         purchaseDate = (java.util.Date)in.readSerializable();
     }
 //------------------------------------Parcelable //TODO: ensure correct data is passed in/out
@@ -79,7 +76,7 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
         out.writeString(name);
         out.writeValue((Object)productId);
         out.writeInt(quantity);
-        out.writeString(location);
+        out.writeInt(location);
         out.writeSerializable(purchaseDate);
     }
     //need creator field for new items
@@ -115,7 +112,7 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
         return quantity;
     }
 
-    public String getLocation() {
+    public int getLocation() {
         return location;
     }
 
@@ -135,7 +132,7 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
         this.quantity = quantity;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(int location) {
         this.location = location;
     }
 
@@ -147,6 +144,16 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
         LocalDate today = LocalDate.now();
         //This assumes the expiration date is 10 days after the purchase date
         //The actual date will be calculated from our database
+        int expirationDays = 0;
+        switch (location) {
+            case 0:
+                //shouldn't be calling it in this case
+            case 1:
+                //Pantry
+                if (productId.getPantry_exp() == 0) {
+
+                }
+        }
         LocalDate expiration = Model.toLocalDate(purchaseDate).plusDays(10);
         return ChronoUnit.DAYS.between(today, expiration);
     }
@@ -200,6 +207,14 @@ public class FoodItem extends RealmObject implements Parcelable, Cloneable<FoodI
     @Override
     public FoodItem clone() {
         return new FoodItem(object_id, name, productId, quantity, purchaseDate);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof FoodItem) {
+            return this._id.equals(((FoodItem) obj).get_id());
+        }
+        return false;
     }
 }
 

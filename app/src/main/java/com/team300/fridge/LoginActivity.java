@@ -3,7 +3,6 @@ package com.team300.fridge;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -45,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public AppUser attemptLogin() {
+        //Initializes local realm instance
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder().name("Fridge.realm")
                 .schemaVersion(MainActivity.getSchemaVNow())

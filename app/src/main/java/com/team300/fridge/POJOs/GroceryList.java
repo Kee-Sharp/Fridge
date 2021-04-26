@@ -3,6 +3,8 @@ package com.team300.fridge.POJOs;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.bson.types.ObjectId;
+
 import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,7 +21,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
     private String object_id;
 
     @PrimaryKey
-    private int _id;
+    private ObjectId _id;
     private String name;
     private Date createdOn;
     private RealmList<FoodItem> items;
@@ -31,6 +33,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
             throw new InvalidParameterException("Items must not be empty");
         } else {
             this.object_id = object_id;
+            this._id = ObjectId.get();
             this.name = name;
             this.createdOn = new Date();
             this.items = items;
@@ -45,6 +48,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
             throw new InvalidParameterException("Items must not be empty");
         } else {
             this.object_id = model.getCurrentUser().getEmail();
+            this._id = ObjectId.get();
             this.name = name;
             this.createdOn = new Date();
             this.items = items;
@@ -59,6 +63,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
             throw new InvalidParameterException("Items must not be empty");
         } else {
             this.object_id = model.getCurrentUser().getEmail();
+            this._id = ObjectId.get();
             this.name = name;
             this.createdOn = new Date();
             this.items = new RealmList<FoodItem>();
@@ -77,6 +82,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
             throw new InvalidParameterException("Items must not be empty");
         } else {
             this.object_id = object_id;
+            this._id = ObjectId.get();
             this.name = name;
             this.createdOn = new Date();
             this.items = new RealmList<FoodItem>();
@@ -94,6 +100,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
     //create FoodItem from parcel information
     private GroceryList(Parcel in){
         this.object_id = in.readString();
+        this._id = (ObjectId) in.readSerializable();
         this.name = in.readString();
         this.createdOn = (java.util.Date)in.readSerializable();
         items = new RealmList<FoodItem>();
@@ -109,6 +116,7 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
     @Override
     public void writeToParcel(Parcel out, int flags){
         out.writeString(object_id);
+        out.writeSerializable(_id);
         out.writeString(name);
         out.writeSerializable(createdOn);
         out.writeTypedList(items);
@@ -153,7 +161,9 @@ public class GroceryList extends RealmObject implements Parcelable, Cloneable<Gr
     }
 
     public void addItem(FoodItem item) {
-        this.items.add(item);
+        if (!items.contains(item)) {
+            this.items.add(item);
+        }
     }
 
     @Override

@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     private MyPagerAdapter mPagerAdapter;
     private static Context context;
-    private static final int SCHEMA_V_PREV = 4;// previous schema version
-    private static final int SCHEMA_V_NOW = 5;// change schema version if any change happened in schema
+    private static final int SCHEMA_V_PREV = 8;// previous schema version
+    private static final int SCHEMA_V_NOW = 9;// change schema version if any change happened in schema
 
     private static Realm uiThreadRealm;
 

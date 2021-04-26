@@ -248,4 +248,12 @@ public class Product extends RealmObject implements Parcelable, Serializable {
         return String.format("id:%s\t name: %s\t subtitle: %s\t\n category: %s\t keywords: %s\t\n pantry_exp: %d\t fridge_exp: %d\t freezer_exp: %d",
                 _id, name, name_sub, category, keywords, getPantry_exp(), getFridge_exp(), getFreezer_exp());
     }
+
+    /**
+     * Returns the smallest non-zero days of expiration among
+     * @return
+     */
+    public int getDefaultExp() {
+        return 0;
+    }
 }
